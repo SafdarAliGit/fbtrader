@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include fbtrader *.css
+recursive-include fbtrader *.csv
+recursive-include fbtrader *.html
+recursive-include fbtrader *.ico
+recursive-include fbtrader *.js
+recursive-include fbtrader *.json
+recursive-include fbtrader *.md
+recursive-include fbtrader *.png
+recursive-include fbtrader *.py
+recursive-include fbtrader *.svg
+recursive-include fbtrader *.txt
+recursive-exclude fbtrader *.pyc
