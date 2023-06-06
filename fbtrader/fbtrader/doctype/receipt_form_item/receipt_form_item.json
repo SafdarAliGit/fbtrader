@@ -1,0 +1,109 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:PRI-{########}",
+ "creation": "2023-06-02 16:53:59.853562",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "posting_date",
+  "mode_of_payment",
+  "bank_name",
+  "account_title",
+  "cheque_no",
+  "bank_date",
+  "amount",
+  "party_type",
+  "party",
+  "out_date"
+ ],
+ "fields": [
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Bank Name",
+   "options": "Bank"
+  },
+  {
+   "fieldname": "account_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Account Title"
+  },
+  {
+   "fieldname": "bank_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Bank Date"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "options": "currency"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "party_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Party Type",
+   "options": "Customer\nSupplier"
+  },
+  {
+   "fieldname": "mode_of_payment",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Mode Of Payment",
+   "options": "Online deposit\nPDC\nCash"
+  },
+  {
+   "fieldname": "cheque_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Cheque No"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Today",
+   "fieldname": "out_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Out Date"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "party",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Party"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-06-04 22:07:05.342648",
+ "modified_by": "Administrator",
+ "module": "fbtrader",
+ "name": "Receipt Form Item",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

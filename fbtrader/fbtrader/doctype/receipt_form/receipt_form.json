@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:PR-{########}",
+ "creation": "2023-06-04 21:27:07.329843",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "posting_date",
+  "party",
+  "receipt_date",
+  "column_break_s1deb",
+  "amended_from",
+  "receipt_no",
+  "tr_no",
+  "section_break_dsdnz",
+  "receipt_form_item",
+  "section_break_crvb6",
+  "ac_no",
+  "column_break_omucr",
+  "total_amount"
+ ],
+ "fields": [
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Party",
+   "options": "Customer"
+  },
+  {
+   "default": "Today",
+   "fieldname": "receipt_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Receipt Date"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Receipt Form",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "ac_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Ac #"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "options": "currency"
+  },
+  {
+   "fieldname": "tr_no",
+   "fieldtype": "Data",
+   "label": "TR No"
+  },
+  {
+   "fieldname": "receipt_no",
+   "fieldtype": "Data",
+   "label": "Receipt No"
+  },
+  {
+   "fieldname": "receipt_form_item",
+   "fieldtype": "Table",
+   "label": "Receipt Form Item",
+   "options": "Receipt Form Item"
+  },
+  {
+   "fieldname": "column_break_s1deb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_dsdnz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_omucr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_crvb6",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2023-06-04 23:28:06.049409",
+ "modified_by": "Administrator",
+ "module": "fbtrader",
+ "name": "Receipt Form",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
