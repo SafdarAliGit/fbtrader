@@ -16,7 +16,7 @@ frappe.ui.form.on('Payment Form', {
 
                     $.each(childRecords, function (_i, e) {
                         let entry = frm.add_child("receipt_form_item");
-                            entry.mode_of_payment,
+                        entry.mode_of_payment,
                             entry.in_date = e.in_date,
                             entry.bank_name = e.bank_name,
                             entry.account_title = e.account_title,
@@ -65,7 +65,7 @@ frappe.ui.form.on('Payment Form', {
                         label: 'Mode Of Payment',
                         fieldname: 'mode_of_payment',
                         fieldtype: 'Select',
-                        options: ['Online deposit','PDC']
+                        options: ['Online deposit', 'PDC']
                     }
                 ],
                 primary_action_label: 'Fetch',
@@ -90,7 +90,7 @@ frappe.ui.form.on('Payment Form', {
 
                                 $.each(childRecords, function (_i, e) {
                                     let entry = frm.add_child("receipt_form_item");
-                                        entry.mode_of_payment,
+                                    entry.mode_of_payment,
                                         entry.in_date = e.in_date,
                                         entry.bank_name = e.bank_name,
                                         entry.account_title = e.account_title,
@@ -115,6 +115,15 @@ frappe.ui.form.on('Payment Form', {
 
         }).addClass("btn-primary")
 
+    },
+
+    validate: function (frm) {
+        // Remove child documents before saving
+        frm.doc.receipt_form_item = []
+    },
+    before_save: function (frm) {
+        // Remove child documents before saving
+        frm.doc.receipt_form_item = []
     }
 
 });
