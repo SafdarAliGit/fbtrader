@@ -20,8 +20,7 @@
   "section_break_crvb6",
   "ac_no",
   "column_break_omucr",
-  "total_amount",
-  "amended_from"
+  "total_amount"
  ],
  "fields": [
   {
@@ -103,7 +102,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Payment Form",
+   "options": "Receipt Form",
    "print_hide": 1,
    "read_only": 1
   }
@@ -111,7 +110,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-04 23:40:41.321974",
+ "modified": "2023-06-07 11:08:49.872690",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",

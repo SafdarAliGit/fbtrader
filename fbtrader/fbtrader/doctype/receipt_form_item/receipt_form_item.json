@@ -8,7 +8,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "posting_date",
+  "in_date",
   "mode_of_payment",
   "bank_name",
   "account_title",
@@ -17,17 +17,11 @@
   "amount",
   "party_type",
   "party",
-  "out_date"
+  "out_date",
+  "payment_form_id",
+  "status"
  ],
  "fields": [
-  {
-   "default": "Today",
-   "fieldname": "posting_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Posting Date",
-   "read_only": 1
-  },
   {
    "fieldname": "bank_name",
    "fieldtype": "Link",
@@ -89,12 +83,32 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Party"
+  },
+  {
+   "fieldname": "payment_form_id",
+   "fieldtype": "Data",
+   "label": "Payment  Form Id"
+  },
+  {
+   "default": "In",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "In\nOut"
+  },
+  {
+   "default": "Today",
+   "fieldname": "in_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "In Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-04 22:07:05.342648",
+ "modified": "2023-06-07 14:28:46.747657",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form Item",
