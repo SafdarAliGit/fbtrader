@@ -2,6 +2,7 @@
 // For license information, please see license.txt
 frappe.ui.form.on('Payment Form', {
     refresh: function (frm) {
+         frm.set_value("tr_no", frm.doc.name);
         frm.page.btn_secondary.hide()
         frappe.call({
             method: 'fbtrader.fbtrader.doctype.payment_form.utils.fetch_child_records',
@@ -24,9 +25,9 @@ frappe.ui.form.on('Payment Form', {
                             entry.cheque_no = e.cheque_no,
                             entry.bank_date = e.bank_date,
                             entry.amount = e.amount,
-                            entry.party_type = e.party_type,
-                            entry.party = e.party,
-                            entry.out_date = e.out_date
+                            entry.in_party = e.in_party,
+                            entry.out_party = frm.doc.party,
+                            entry.out_date = frm.doc.receipt_date
                     })
                     refresh_field("receipt_form_item")
                 }
@@ -77,7 +78,6 @@ frappe.ui.form.on('Payment Form', {
                 ],
                 primary_action_label: 'Fetch',
                 primary_action(filters) {
-                    console.log(filters.mode_of_payment);
                     // Ajax call
                     frappe.call({
                         method: 'fbtrader.fbtrader.doctype.payment_form.utils.get_receipts',
@@ -106,12 +106,13 @@ frappe.ui.form.on('Payment Form', {
                                         entry.cheque_no = e.cheque_no,
                                         entry.bank_date = e.bank_date,
                                         entry.amount = e.amount,
-                                        entry.party_type = e.party_type,
-                                        entry.party = e.party,
-                                        entry.out_date = e.out_date
+                                        entry.in_party = e.in_party,
+                                        entry.out_party = frm.doc.party,
+                                        entry.out_date = frm.doc.receipt_date
                                 })
                                 refresh_field("receipt_form_item")
                             }
+
                         }
                     });
                     // Ajax call end
@@ -123,6 +124,37 @@ frappe.ui.form.on('Payment Form', {
 
 
         }).addClass("btn-primary")
+
+        if (frm.doc.docstatus === 1) {
+            frm.add_custom_button(__("Cancel Payment Form"), function () {
+
+                frappe.confirm('Are you sure you want to proceed?',
+                    () => {
+
+                        // Ajax call
+                        frappe.call({
+                            method: 'fbtrader.fbtrader.doctype.payment_form.utils.cancel_payment_form',
+                            args: {
+                                receipt_form_item: frm.doc.receipt_form_item,
+                                parent: frm.doc.name,
+                            },
+                            callback: function (response) {
+                                if (response.message) {
+                                    frappe.msgprint(`Payment form : ${frm.doc.name} cancelled`);
+                                    frappe.set_route('List', 'Payment Form')
+                                }
+                            }
+                        });
+                        // Ajax call end
+                    }, () => {
+                        // action to perform if No is selected
+                    })
+
+
+            }).addClass("btn-primary")
+
+        }
+
 
     },
 
@@ -138,8 +170,16 @@ frappe.ui.form.on('Payment Form', {
         frappe.set_route('List', 'Payment Form')
 
     },
-    before_cancel:function (frm){
+    before_cancel: function (frm) {
         frappe.msgprint('you are about to cancel');
+    },
+    party: function (frm) {
+        var master_party = frm.doc.party;
+        frm.doc.receipt_form_item.forEach(function (row) {
+            row.in_party = master_party
+        });
+        frm.refresh_field('receipt_form_item');
     }
 
 });
+

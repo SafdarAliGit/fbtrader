@@ -34,7 +34,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Party",
-   "options": "Customer"
+   "options": "Supplier"
   },
   {
    "default": "Today",
@@ -109,7 +109,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-08 09:10:36.990355",
+ "modified": "2023-06-08 16:58:35.745068",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",

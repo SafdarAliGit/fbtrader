@@ -9,14 +9,14 @@
  "engine": "InnoDB",
  "field_order": [
   "in_date",
+  "in_party",
   "mode_of_payment",
   "bank_name",
   "account_title",
   "cheque_no",
   "bank_date",
   "amount",
-  "party_type",
-  "party",
+  "out_party",
   "out_date",
   "payment_form_id",
   "status",
@@ -27,20 +27,21 @@
    "fieldname": "bank_name",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Bank Name",
+   "label": "Bank ",
    "options": "Bank"
   },
   {
    "fieldname": "account_title",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Account Title"
+   "label": "Ac Title",
+   "max_height": "50px"
   },
   {
    "fieldname": "bank_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Bank Date"
+   "label": "Bank DT"
   },
   {
    "fieldname": "amount",
@@ -50,25 +51,17 @@
    "options": "currency"
   },
   {
-   "allow_on_submit": 1,
-   "fieldname": "party_type",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Party Type",
-   "options": "\nCustomer\nSupplier"
-  },
-  {
    "fieldname": "mode_of_payment",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Mode Of Payment",
+   "label": "PMT Mod",
    "options": "Online deposit\nPDC\nCash"
   },
   {
    "fieldname": "cheque_no",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Cheque No"
+   "label": "Chq/Ref "
   },
   {
    "allow_on_submit": 1,
@@ -79,21 +72,17 @@
   },
   {
    "allow_on_submit": 1,
-   "fieldname": "party",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Party"
-  },
-  {
-   "allow_on_submit": 1,
    "fieldname": "payment_form_id",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Payment  Form Id"
   },
   {
+   "allow_on_submit": 1,
    "default": "In",
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Status",
    "options": "In\nOut"
   },
@@ -110,12 +99,29 @@
    "fieldtype": "Data",
    "label": "ID",
    "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "columns": 1,
+   "fieldname": "in_party",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "In Party",
+   "options": "Customer"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "out_party",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Out Party",
+   "options": "Supplier"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-07 23:05:15.289099",
+ "modified": "2023-06-08 15:00:51.085281",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form Item",

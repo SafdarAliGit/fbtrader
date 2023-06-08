@@ -1,3 +1,5 @@
+import json
+
 import frappe
 from frappe import _, qb
 
@@ -13,8 +15,8 @@ def fetch_child_records(**args):
                                            "cheque_no",
                                            "bank_date",
                                            "amount",
-                                           "party_type",
-                                           "party",
+                                           "in_party",
+                                           "out_party",
                                            "out_date"]
                                    )
     return child_records
@@ -33,8 +35,8 @@ def get_receipts(**args):
                 rfi.cheque_no,
                 rfi.bank_date,
                 rfi.amount,
-                rfi.party_type,
-                rfi.party,
+                rfi.out_party,
+                rfi.in_party,
                 rfi.out_date
                 )
         .where(
@@ -59,7 +61,7 @@ def get_receipts(**args):
     if args.get("mode_of_payment", None):
         query = query.where(
             rfi.mode_of_payment == args.get('mode_of_payment')
-    )
+        )
     if args.get("cheque_no", None):
         query = query.where(
             rfi.cheque_no.like(f"%{args.get('cheque_no')}%")
@@ -67,5 +69,20 @@ def get_receipts(**args):
     if args.get("bank_date", None):
         query = query.where(
             rfi.bank_date == args.get('bank_date')
-    )
+        )
     return query.run(as_dict=True)
+
+
+@frappe.whitelist()
+def cancel_payment_form(**args):
+    receipt_form_item = json.loads(args.get('receipt_form_item'))
+    for item in receipt_form_item:
+        rfi = frappe.get_doc("Receipt Form Item", item['id'])
+        rfi.reload()
+        rfi.payment_form_id = None
+        rfi.status = 'In'
+        rfi.out_party = None
+        rfi.out_date = None
+        rfi.save()
+    frappe.db.delete("Payment Form", args.get('parent'))
+    return "Cancelled"
