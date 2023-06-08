@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 frappe.ui.form.on('Payment Form', {
     refresh: function (frm) {
-        cur_frm.page.btn_secondary.hide()
+        frm.page.btn_secondary.hide()
         frappe.call({
             method: 'fbtrader.fbtrader.doctype.payment_form.utils.fetch_child_records',
             args: {
