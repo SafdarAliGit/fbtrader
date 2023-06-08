@@ -19,7 +19,8 @@
   "party",
   "out_date",
   "payment_form_id",
-  "status"
+  "status",
+  "id"
  ],
  "fields": [
   {
@@ -54,7 +55,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Party Type",
-   "options": "Customer\nSupplier"
+   "options": "\nCustomer\nSupplier"
   },
   {
    "fieldname": "mode_of_payment",
@@ -71,7 +72,6 @@
   },
   {
    "allow_on_submit": 1,
-   "default": "Today",
    "fieldname": "out_date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -85,6 +85,7 @@
    "label": "Party"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "payment_form_id",
    "fieldtype": "Data",
    "label": "Payment  Form Id"
@@ -103,12 +104,18 @@
    "in_list_view": 1,
    "label": "In Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "id",
+   "fieldtype": "Data",
+   "label": "ID",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-07 14:28:46.747657",
+ "modified": "2023-06-07 23:05:15.289099",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form Item",

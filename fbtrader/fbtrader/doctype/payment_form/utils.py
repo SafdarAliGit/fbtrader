@@ -52,7 +52,6 @@ def get_receipts(**args):
         query = query.where(
             rfi.bank_name.like(f"%{args.get('bank_name')}%")
         )
-
     if args.get("account_title", None):
         query = query.where(
             rfi.account_title.like(f"%{args.get('account_title')}%")
@@ -65,4 +64,8 @@ def get_receipts(**args):
         query = query.where(
             rfi.cheque_no.like(f"%{args.get('cheque_no')}%")
         )
+    if args.get("bank_date", None):
+        query = query.where(
+            rfi.bank_date == args.get('bank_date')
+    )
     return query.run(as_dict=True)

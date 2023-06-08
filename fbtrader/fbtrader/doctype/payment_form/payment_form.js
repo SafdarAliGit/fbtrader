@@ -1,8 +1,8 @@
 // Copyright (c) 2023, Tech Ventures and contributors
 // For license information, please see license.txt
-
 frappe.ui.form.on('Payment Form', {
     refresh: function (frm) {
+        cur_frm.page.btn_secondary.hide()
         frappe.call({
             method: 'fbtrader.fbtrader.doctype.payment_form.utils.fetch_child_records',
             args: {
@@ -16,7 +16,8 @@ frappe.ui.form.on('Payment Form', {
 
                     $.each(childRecords, function (_i, e) {
                         let entry = frm.add_child("receipt_form_item");
-                        entry.mode_of_payment,
+                        entry.id = e.name
+                        entry.mode_of_payment = e.mode_of_payment,
                             entry.in_date = e.in_date,
                             entry.bank_name = e.bank_name,
                             entry.account_title = e.account_title,
@@ -49,7 +50,8 @@ frappe.ui.form.on('Payment Form', {
                     {
                         label: 'Bank Name',
                         fieldname: 'bank_name',
-                        fieldtype: 'Data'
+                        fieldtype: 'Link',
+                        options: "Bank"
                     },
                     {
                         label: 'Account Title',
@@ -62,10 +64,15 @@ frappe.ui.form.on('Payment Form', {
                         fieldtype: 'Data'
                     },
                     {
+                        label: 'Bank Date',
+                        fieldname: 'bank_date',
+                        fieldtype: 'Date'
+                    },
+                    {
                         label: 'Mode Of Payment',
                         fieldname: 'mode_of_payment',
                         fieldtype: 'Select',
-                        options: ['Online deposit', 'PDC']
+                        options: ['Online deposit', 'PDC', 'Cash']
                     }
                 ],
                 primary_action_label: 'Fetch',
@@ -80,7 +87,8 @@ frappe.ui.form.on('Payment Form', {
                             bank_name: filters.bank_name,
                             account_title: filters.account_title,
                             mode_of_payment: filters.mode_of_payment,
-                            cheque_no: filters.cheque_no
+                            cheque_no: filters.cheque_no,
+                            bank_date: filters.bank_date
                         },
                         callback: function (response) {
                             if (response.message) {
@@ -90,7 +98,8 @@ frappe.ui.form.on('Payment Form', {
 
                                 $.each(childRecords, function (_i, e) {
                                     let entry = frm.add_child("receipt_form_item");
-                                    entry.mode_of_payment,
+                                    entry.id = e.name
+                                    entry.mode_of_payment = e.mode_of_payment,
                                         entry.in_date = e.in_date,
                                         entry.bank_name = e.bank_name,
                                         entry.account_title = e.account_title,
@@ -117,13 +126,20 @@ frappe.ui.form.on('Payment Form', {
 
     },
 
-    validate: function (frm) {
-        // Remove child documents before saving
-        frm.doc.receipt_form_item = []
+    // validate: function (frm) {
+    //     // Remove child documents before saving
+    //     frm.doc.receipt_form_item = []
+    // },
+    // before_save: function (frm) {
+    //     // Remove child documents before saving
+    //     frm.doc.receipt_form_item = []
+    // }
+    after_save: function (frm) {
+        frappe.set_route('List', 'Payment Form')
+
     },
-    before_save: function (frm) {
-        // Remove child documents before saving
-        frm.doc.receipt_form_item = []
+    before_cancel:function (frm){
+        frappe.msgprint('you are about to cancel');
     }
 
 });
