@@ -20,7 +20,8 @@
   "section_break_crvb6",
   "ac_no",
   "column_break_omucr",
-  "total_amount"
+  "total_amount",
+  "payment_entry_done"
  ],
  "fields": [
   {
@@ -105,11 +106,18 @@
    "options": "Receipt Form",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "payment_entry_done",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Payment Entry Done"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-08 16:58:35.745068",
+ "modified": "2023-06-10 13:33:33.356440",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",

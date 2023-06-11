@@ -4,6 +4,27 @@
 frappe.ui.form.on('Receipt Form', {
     refresh: function (frm) {
         frm.set_value("tr_no", frm.doc.name);
+        // PAYMENT RECEIT
+        if (frm.doc.docstatus === 1 && !frm.doc.payment_entry_done) {
+            frm.add_custom_button(__('Generate Payment Entry'), function () {
+
+                frappe.call({
+                    method: 'fbtrader.fbtrader.doctype.utils.payment_entry_from_receipt_form',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Payment Entry Created");
+                        }
+                    }
+                });
+
+            }).addClass("btn-primary")
+        }
+
+        // PAYMENT RECEIT END
     },
     party: function (frm) {
         var master_party = frm.doc.party;
@@ -11,7 +32,9 @@ frappe.ui.form.on('Receipt Form', {
             row.in_party = master_party
         });
         frm.refresh_field('receipt_form_item');
-    }
+    },
+
+
 });
 frappe.ui.form.on('Receipt Form Item', {
     receipt_form_item_add: function (frm, cdt, cdn) {

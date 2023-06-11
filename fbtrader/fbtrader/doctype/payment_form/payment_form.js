@@ -2,10 +2,10 @@
 // For license information, please see license.txt
 frappe.ui.form.on('Payment Form', {
     refresh: function (frm) {
-         frm.set_value("tr_no", frm.doc.name);
+        frm.set_value("tr_no", frm.doc.name);
         frm.page.btn_secondary.hide()
         frappe.call({
-            method: 'fbtrader.fbtrader.doctype.payment_form.utils.fetch_child_records',
+            method: 'fbtrader.fbtrader.doctype.utils.fetch_child_records',
             args: {
                 master_name: frm.doc.name
             },
@@ -167,8 +167,7 @@ frappe.ui.form.on('Payment Form', {
     //     frm.doc.receipt_form_item = []
     // }
     after_save: function (frm) {
-        frappe.set_route('List', 'Payment Form')
-
+        frappe.set_route('List', 'Payment Form');
     },
     before_cancel: function (frm) {
         frappe.msgprint('you are about to cancel');

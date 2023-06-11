@@ -10,6 +10,7 @@
  "field_order": [
   "posting_date",
   "party",
+  "party_name",
   "receipt_date",
   "column_break_s1deb",
   "amended_from",
@@ -20,7 +21,8 @@
   "section_break_crvb6",
   "ac_no",
   "column_break_omucr",
-  "total_amount"
+  "total_amount",
+  "payment_entry_done"
  ],
  "fields": [
   {
@@ -96,12 +98,27 @@
   {
    "fieldname": "section_break_crvb6",
    "fieldtype": "Section Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "payment_entry_done",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Payment Entry Done"
+  },
+  {
+   "fetch_from": "party.customer_name",
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Party Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-04 23:28:06.049409",
+ "modified": "2023-06-10 18:48:02.697830",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form",
