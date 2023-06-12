@@ -103,8 +103,8 @@ frappe.ui.form.on('Payment Form', {
                     {
                         label: 'Mode Of Payment',
                         fieldname: 'mode_of_payment',
-                        fieldtype: 'Select',
-                        options: ['Online deposit', 'PDC', 'Cash']
+                        fieldtype: 'Link',
+                        options: 'Mode of Payment'
                     }
                 ],
                 primary_action_label: 'Fetch',
