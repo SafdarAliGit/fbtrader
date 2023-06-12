@@ -51,6 +51,7 @@
    "options": "currency"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "mode_of_payment",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -121,7 +122,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-10 18:35:55.329210",
+ "modified": "2023-06-12 15:59:12.340328",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form Item",

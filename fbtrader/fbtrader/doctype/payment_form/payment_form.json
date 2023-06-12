@@ -120,12 +120,13 @@
    "fetch_from": "party.supplier_name",
    "fieldname": "party_name",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Party Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-12 11:55:38.433319",
+ "modified": "2023-06-12 14:24:20.381530",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",
