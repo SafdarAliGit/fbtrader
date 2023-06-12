@@ -2,8 +2,39 @@
 // For license information, please see license.txt
 frappe.ui.form.on('Payment Form', {
     refresh: function (frm) {
+        function calculate_net_total(frm) {
+            var total_amount = 0;
+            $.each(frm.doc.receipt_form_item || [], function (i, d) {
+                total_amount += flt(d.amount);
+            });
+            frm.set_value("total_amount", total_amount)
+        }
+
+        calculate_net_total(frm)
         frm.set_value("tr_no", frm.doc.name);
         frm.page.btn_secondary.hide()
+        // PAYMENT
+        if (frm.doc.docstatus === 1 && !frm.doc.payment_entry_done) {
+            frm.add_custom_button(__('Generate Payment Entry'), function () {
+
+                frappe.call({
+                    method: 'fbtrader.fbtrader.doctype.utils.payment_entry_from_payment_form',
+                    args: {
+                        receipt_form_item: frm.doc.receipt_form_item,
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Payment Entry Created");
+                        }
+                    }
+                });
+
+            }).addClass("btn-primary")
+        }
+
+        // PAYMENT END
         frappe.call({
             method: 'fbtrader.fbtrader.doctype.utils.fetch_child_records',
             args: {
@@ -80,7 +111,7 @@ frappe.ui.form.on('Payment Form', {
                 primary_action(filters) {
                     // Ajax call
                     frappe.call({
-                        method: 'fbtrader.fbtrader.doctype.payment_form.utils.get_receipts',
+                        method: 'fbtrader.fbtrader.doctype.utils.get_receipts',
                         args: {
                             from_date: filters.from_date,
                             to_date: filters.to_date,
@@ -113,6 +144,16 @@ frappe.ui.form.on('Payment Form', {
                                 refresh_field("receipt_form_item")
                             }
 
+                            function calculate_net_total(frm) {
+                                var total_amount = 0;
+                                $.each(frm.doc.receipt_form_item || [], function (i, d) {
+                                    total_amount += flt(d.amount);
+                                });
+                                frm.set_value("total_amount", total_amount)
+                            }
+
+                            calculate_net_total(frm)
+
                         }
                     });
                     // Ajax call end
@@ -125,7 +166,7 @@ frappe.ui.form.on('Payment Form', {
 
         }).addClass("btn-primary")
 
-        if (frm.doc.docstatus === 1) {
+        if (frm.doc.docstatus === 1 && !frm.doc.payment_entry_done) {
             frm.add_custom_button(__("Cancel Payment Form"), function () {
 
                 frappe.confirm('Are you sure you want to proceed?',
@@ -133,7 +174,7 @@ frappe.ui.form.on('Payment Form', {
 
                         // Ajax call
                         frappe.call({
-                            method: 'fbtrader.fbtrader.doctype.payment_form.utils.cancel_payment_form',
+                            method: 'fbtrader.fbtrader.doctype.utils.cancel_payment_form',
                             args: {
                                 receipt_form_item: frm.doc.receipt_form_item,
                                 parent: frm.doc.name,
@@ -178,6 +219,32 @@ frappe.ui.form.on('Payment Form', {
             row.in_party = master_party
         });
         frm.refresh_field('receipt_form_item');
+    }
+
+});
+
+frappe.ui.form.on('Receipt Form Item', {
+    receipt_form_item_remove: function (frm) {
+        function calculate_net_total(frm) {
+            var total_amount = 0;
+            $.each(frm.doc.receipt_form_item || [], function (i, d) {
+                total_amount += flt(d.amount);
+            });
+            frm.set_value("total_amount", total_amount)
+        }
+
+        calculate_net_total(frm)
+    },
+    amount: function (frm) {
+        function calculate_net_total(frm) {
+            var total_amount = 0;
+            $.each(frm.doc.receipt_form_item || [], function (i, d) {
+                total_amount += flt(d.amount);
+            });
+            frm.set_value("total_amount", total_amount)
+        }
+
+        calculate_net_total(frm)
     }
 
 });

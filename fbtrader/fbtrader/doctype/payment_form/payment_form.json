@@ -11,6 +11,7 @@
   "posting_date",
   "party",
   "receipt_date",
+  "party_name",
   "column_break_s1deb",
   "amended_from",
   "receipt_no",
@@ -112,12 +113,19 @@
    "fieldname": "payment_entry_done",
    "fieldtype": "Check",
    "hidden": 1,
+   "in_list_view": 1,
    "label": "Payment Entry Done"
+  },
+  {
+   "fetch_from": "party.supplier_name",
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "label": "Party Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-10 13:33:33.356440",
+ "modified": "2023-06-12 11:55:38.433319",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",

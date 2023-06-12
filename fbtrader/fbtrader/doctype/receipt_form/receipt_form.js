@@ -3,6 +3,16 @@
 
 frappe.ui.form.on('Receipt Form', {
     refresh: function (frm) {
+        function calculate_net_total(frm) {
+            var total_amount = 0;
+            $.each(frm.doc.receipt_form_item || [], function (i, d) {
+                total_amount += flt(d.amount);
+            });
+            frm.set_value("total_amount", total_amount)
+        }
+
+        calculate_net_total(frm)
+
         frm.set_value("tr_no", frm.doc.name);
         // PAYMENT RECEIT
         if (frm.doc.docstatus === 1 && !frm.doc.payment_entry_done) {
@@ -37,6 +47,7 @@ frappe.ui.form.on('Receipt Form', {
 
 });
 frappe.ui.form.on('Receipt Form Item', {
+
     receipt_form_item_add: function (frm, cdt, cdn) {
         var master_party = frm.doc.party;
         if (master_party) {
@@ -47,5 +58,17 @@ frappe.ui.form.on('Receipt Form Item', {
             return true;
         }
 
+    },
+    amount: function (frm) {
+        function calculate_net_total(frm) {
+            var total_amount = 0;
+            $.each(frm.doc.receipt_form_item || [], function (i, d) {
+                total_amount += flt(d.amount);
+            });
+            frm.set_value("total_amount", total_amount)
+        }
+
+        calculate_net_total(frm)
     }
-});
+})
+;
