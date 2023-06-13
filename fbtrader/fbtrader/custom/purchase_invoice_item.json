@@ -155,7 +155,7 @@
    "insert_after": "available_qty",
    "is_system_generated": 0,
    "is_virtual": 0,
-   "label": "Batch ID",
+   "label": "DO",
    "length": 0,
    "mandatory_depends_on": null,
    "modified": "2023-06-12 16:53:12.162150",
