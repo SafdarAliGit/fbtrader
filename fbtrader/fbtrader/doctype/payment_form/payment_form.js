@@ -69,15 +69,21 @@ frappe.ui.form.on('Payment Form', {
             let d = new frappe.ui.Dialog({
                 title: 'Enter Filters',
                 fields: [
+                    // {
+                    //     label: 'From Date',
+                    //     fieldname: 'from_date',
+                    //     fieldtype: 'Date'
+                    // },
+                    // {
+                    //     label: 'To Date',
+                    //     fieldname: 'to_date',
+                    //     fieldtype: 'Date'
+                    // },
                     {
-                        label: 'From Date',
-                        fieldname: 'from_date',
-                        fieldtype: 'Date'
-                    },
-                    {
-                        label: 'To Date',
-                        fieldname: 'to_date',
-                        fieldtype: 'Date'
+                        label: 'Mode Of Payment',
+                        fieldname: 'mode_of_payment',
+                        fieldtype: 'Link',
+                        options: 'Mode of Payment'
                     },
                     {
                         label: 'Bank Name',
@@ -88,7 +94,8 @@ frappe.ui.form.on('Payment Form', {
                     {
                         label: 'Account Title',
                         fieldname: 'account_title',
-                        fieldtype: 'Data'
+                        fieldtype: 'Link',
+                        options: 'Account Title'
                     },
                     {
                         label: 'Cheque #',
@@ -96,16 +103,17 @@ frappe.ui.form.on('Payment Form', {
                         fieldtype: 'Data'
                     },
                     {
+                        label: 'Slip #',
+                        fieldname: 'slip_no',
+                        fieldtype: 'Data'
+                    },
+{
                         label: 'Bank Date',
                         fieldname: 'bank_date',
                         fieldtype: 'Date'
                     },
-                    {
-                        label: 'Mode Of Payment',
-                        fieldname: 'mode_of_payment',
-                        fieldtype: 'Link',
-                        options: 'Mode of Payment'
-                    }
+
+
                 ],
                 primary_action_label: 'Fetch',
                 primary_action(filters) {

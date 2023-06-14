@@ -74,7 +74,9 @@ def fetch_child_records(**args):
                                            "amount",
                                            "in_party",
                                            "out_party",
-                                           "out_date"]
+                                           "out_date",
+                                           "slip_no"
+                                           ]
                                    )
     return child_records
 
@@ -94,7 +96,8 @@ def get_receipts(**args):
                 rfi.amount,
                 rfi.out_party,
                 rfi.in_party,
-                rfi.out_date
+                rfi.out_date,
+                rfi.slip_no
                 )
         .where(
             (rfi.status == 'In')
@@ -126,6 +129,10 @@ def get_receipts(**args):
     if args.get("bank_date", None):
         query = query.where(
             rfi.bank_date == args.get('bank_date')
+        )
+    if args.get("slip_no", None):
+        query = query.where(
+            rfi.slip_no == args.get('slip_no')
         )
     return query.run(as_dict=True)
 
@@ -332,7 +339,7 @@ def payment_entry_from_payment_form(**args):
                                        fields=['in_date', 'in_party', 'mode_of_payment', 'bank_name', 'account_title',
                                                'cheque_no', 'bank_date', 'amount', 'out_party', 'out_date',
                                                'payment_form_id'
-                                           , 'status', 'id'])
+                                           , 'status', 'id','slip_no'])
     if len(receipt_form_item) > 0:
         if not source_name.payment_entry_done:
             currency = frappe.defaults.get_defaults().currency

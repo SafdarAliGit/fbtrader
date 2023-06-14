@@ -1041,8 +1041,16 @@ frappe.ui.form.on('Sales Invoice', {
                 }
             }
         });
-    }
+    },
     // CUSTOM GETTING CUSTOMER BALANCE END
+    // CUSTOM  COPY COMMISSION TO WRITE OF AMOUNT
+
+	commission:function(frm) {
+	var commission = frm.doc.commission;
+	frm.set_value("write_off_amount", commission);
+	}
+
+    // CUSTOM  COPY COMMISSION TO WRITE OF AMOUNT END
 });
 
 frappe.ui.form.on("Sales Invoice Timesheet", {
