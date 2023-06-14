@@ -506,6 +506,10 @@ cur_frm.fields_dict['items'].grid.get_field('project').get_query = function(doc,
 }
 
 frappe.ui.form.on("Purchase Invoice", {
+	refresh(frm) {
+		super.refresh();
+	},
+
 
 		// CUSTOM WORK
 	after_submit: function (frm) {
@@ -707,6 +711,10 @@ frappe.model.set_value(cdt, cdn,'batch_no',d.batch_id);
             callback: function (r) {
                 if (r.message) {
                     frappe.model.set_value(cdt, cdn, 'available_qty', r.message);
+					// custom code make rate and rate_per_lbs null
+					frappe.model.set_value(cdt, cdn, 'rate_per_lbs', );
+					frappe.model.set_value(cdt, cdn, 'rate', );
+					// end custom
                 }
             }
         });
@@ -736,13 +744,8 @@ frappe.model.set_value(cdt, cdn,'batch_no',d.batch_id);
 		 rate_per_lbs:function (frm, cdt, cdn) {
             var d = locals[cdt][cdn];
             var rate_per_lbs = d.rate_per_lbs;
-			var amount = d.lbs * rate_per_lbs
-            frappe.model.set_value(cdt, cdn, "amount", amount);
-            frm.set_value("total", amount);
-            frm.set_value("grand_total", amount);
-            frm.set_value("rounded_total", amount);
-            frm.set_value("outstanding_amount", amount);
-
+			var rate = d.lbs_per_ctn * rate_per_lbs
+            frappe.model.set_value(cdt, cdn, "rate", rate);
 
 	}
 
