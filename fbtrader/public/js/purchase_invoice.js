@@ -738,6 +738,10 @@ frappe.model.set_value(cdt, cdn,'batch_no',d.batch_id);
             var rate_per_lbs = d.rate_per_lbs;
 			var amount = d.lbs * rate_per_lbs
             frappe.model.set_value(cdt, cdn, "amount", amount);
+            frm.set_value("total", amount);
+            frm.set_value("grand_total", amount);
+            frm.set_value("rounded_total", amount);
+            frm.set_value("outstanding_amount", amount);
 
 
 	}
