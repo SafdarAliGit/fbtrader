@@ -710,7 +710,37 @@ frappe.model.set_value(cdt, cdn,'batch_no',d.batch_id);
                 }
             }
         });
-    }
+    },
 
     // GETTING LATEST QTY END
+	// CUSTOM CALCULATE BAGA ADN LBS
+
+        kg_per_ctn:function (frm, cdt, cdn) {
+            var d = locals[cdt][cdn];
+            var lbs_per_ctn = d.kg_per_ctn * 2.20462;
+			var lbs = d.qty * lbs_per_ctn
+            frappe.model.set_value(cdt, cdn, "lbs_per_ctn", lbs_per_ctn);
+            frappe.model.set_value(cdt, cdn, "lbs", lbs);
+
+
+	},
+	 qty:function (frm, cdt, cdn) {
+            var d = locals[cdt][cdn];
+            var lbs_per_ctn = d.kg_per_ctn * 2.20462;
+			var lbs = d.qty * lbs_per_ctn
+            frappe.model.set_value(cdt, cdn, "lbs_per_ctn", lbs_per_ctn);
+            frappe.model.set_value(cdt, cdn, "lbs", lbs);
+
+
+	},
+		 rate_per_lbs:function (frm, cdt, cdn) {
+            var d = locals[cdt][cdn];
+            var rate_per_lbs = d.rate_per_lbs;
+			var amount = d.lbs * rate_per_lbs
+            frappe.model.set_value(cdt, cdn, "amount", amount);
+
+
+	}
+
+
 });
