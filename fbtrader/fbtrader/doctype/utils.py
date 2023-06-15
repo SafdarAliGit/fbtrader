@@ -397,3 +397,20 @@ def payment_entry_from_payment_form(**args):
             frappe.throw("Payment Entry already created")
     else:
         frappe.throw("No detail record found")
+
+@frappe.whitelist()
+def fetch_purchased_items_info_by_batch_no(**args):
+    item_code = args.get('item_code')
+    batch_no = args.get('batch_no')
+    data = frappe.db.sql(
+        """
+        select 
+            `tabPurchase Invoice Item`.kg_per_ctn, `tabPurchase Invoice Item`.lbs_per_ctn
+        from `tabBatch`, `tabPurchase Invoice Item`
+        where `tabBatch`.item = `tabPurchase Invoice Item`.item_code
+            and `tabBatch`.batch_id =  `tabPurchase Invoice Item`.batch_no and `tabBatch`.item = %s
+             and `tabBatch`.batch_id = %s  order by `tabPurchase Invoice Item`.parent 
+        """, (item_code,batch_no,),
+        as_dict=1
+    )
+    return data[0]

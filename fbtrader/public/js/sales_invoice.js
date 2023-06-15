@@ -1156,4 +1156,54 @@ frappe.ui.form.on('Sales Invoice Item', {
 
 
     // CUSTOM FUNCTION TO FECTCH RECENT SOLD ITEMS END
+    	// ========================================
+    batch_no: function (frm, cdt, cdn) {
+        var d = locals[cdt][cdn];
+        if (d.item_code) {
+            frappe.call({
+                method: 'fbtrader.fbtrader.doctype.utils.fetch_purchased_items_info_by_batch_no',
+                args: {
+                    'item_code': d.item_code,
+                    'batch_no': d.batch_no,
+                },
+                callback: function (r) {
+                    if (!r.exc) {
+                    frappe.model.set_value(cdt,cdn, 'kg_per_ctn',r.message.kg_per_ctn);
+                    frappe.model.set_value(cdt,cdn, 'lbs_per_ctn',r.message.lbs_per_ctn);
+
+                    }
+                }
+            });
+        } else {
+            msgprint(__("Item Not selected"));
+        }
+
+    },
+    // CUSTOM CALCULATE BAGA ADN LBS
+
+        kg_per_ctn:function (frm, cdt, cdn) {
+            var d = locals[cdt][cdn];
+            var lbs_per_ctn = d.kg_per_ctn * 2.20462;
+			var lbs = d.qty * lbs_per_ctn
+            frappe.model.set_value(cdt, cdn, "lbs_per_ctn", lbs_per_ctn);
+            frappe.model.set_value(cdt, cdn, "lbs", lbs);
+
+
+	},
+	 qty:function (frm, cdt, cdn) {
+            var d = locals[cdt][cdn];
+            var lbs_per_ctn = d.kg_per_ctn * 2.20462;
+			var lbs = d.qty * lbs_per_ctn
+            frappe.model.set_value(cdt, cdn, "lbs_per_ctn", lbs_per_ctn);
+            frappe.model.set_value(cdt, cdn, "lbs", lbs);
+
+
+	},
+		 rate_per_lbs:function (frm, cdt, cdn) {
+            var d = locals[cdt][cdn];
+            var rate_per_lbs = d.rate_per_lbs;
+			var rate = d.lbs_per_ctn * rate_per_lbs
+            frappe.model.set_value(cdt, cdn, "rate", rate);
+
+	}
 });
