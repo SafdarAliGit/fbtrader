@@ -1048,9 +1048,15 @@ frappe.ui.form.on('Sales Invoice', {
 	commission:function(frm) {
 	var commission = frm.doc.commission;
 	frm.set_value("write_off_amount", commission);
-	}
+	},
 
     // CUSTOM  COPY COMMISSION TO WRITE OF AMOUNT END
+    	// CUSTOM WORK
+	write_off_percentage: function (frm){
+		var write_off_amount = frm.doc.total * (frm.doc.write_off_percentage/100);
+		frm.set_value('write_off_amount',write_off_amount);
+	},
+	// END CUSTOM WORK
 });
 
 frappe.ui.form.on("Sales Invoice Timesheet", {

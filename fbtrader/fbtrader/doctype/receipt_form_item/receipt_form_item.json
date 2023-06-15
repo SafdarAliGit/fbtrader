@@ -21,7 +21,8 @@
   "payment_form_id",
   "status",
   "id",
-  "slip_no"
+  "slip_no",
+  "name_id"
  ],
  "fields": [
   {
@@ -137,12 +138,17 @@
    "fieldname": "slip_no",
    "fieldtype": "Data",
    "label": " Slip #"
+  },
+  {
+   "fieldname": "name_id",
+   "fieldtype": "Data",
+   "label": "Name ID"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-15 12:31:24.815779",
+ "modified": "2023-06-15 14:59:27.629094",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form Item",

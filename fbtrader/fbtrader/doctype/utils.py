@@ -75,7 +75,8 @@ def fetch_child_records(**args):
                                            "in_party",
                                            "out_party",
                                            "out_date",
-                                           "slip_no"
+                                           "slip_no",
+                                           "name_id"
                                            ]
                                    )
     return child_records
@@ -97,7 +98,8 @@ def get_receipts(**args):
                 rfi.out_party,
                 rfi.in_party,
                 rfi.out_date,
-                rfi.slip_no
+                rfi.slip_no,
+                rfi.name_id
                 )
         .where(
             (rfi.status == 'In')

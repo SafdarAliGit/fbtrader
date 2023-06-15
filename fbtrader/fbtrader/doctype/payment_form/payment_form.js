@@ -58,7 +58,8 @@ frappe.ui.form.on('Payment Form', {
                             entry.amount = e.amount,
                             entry.in_party = e.in_party,
                             entry.out_party = frm.doc.party,
-                            entry.out_date = frm.doc.receipt_date
+                            entry.out_date = frm.doc.receipt_date,
+                            entry.name_id = e.name_id
                     })
                     refresh_field("receipt_form_item")
                 }
@@ -147,7 +148,8 @@ frappe.ui.form.on('Payment Form', {
                                         entry.amount = e.amount,
                                         entry.in_party = e.in_party,
                                         entry.out_party = frm.doc.party,
-                                        entry.out_date = frm.doc.receipt_date
+                                        entry.out_date = frm.doc.receipt_date,
+                                        entry.name_id = e.name_id
                                 })
                                 refresh_field("receipt_form_item")
                             }

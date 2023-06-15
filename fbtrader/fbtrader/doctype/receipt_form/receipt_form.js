@@ -43,6 +43,17 @@ frappe.ui.form.on('Receipt Form', {
         });
         frm.refresh_field('receipt_form_item');
     },
+    after_save:function (frm){
+        $.each(frm.doc.receipt_form_item || [], function (i, d) {
+                d.name_id= d.name;
+            });
+    },
+    before_submit:function (frm){
+        $.each(frm.doc.receipt_form_item || [], function (i, d) {
+                d.name_id= d.name;
+            });
+    }
+
 
 
 });
