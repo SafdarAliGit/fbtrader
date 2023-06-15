@@ -13,7 +13,6 @@
   "receipt_date",
   "party_name",
   "column_break_s1deb",
-  "amended_from",
   "receipt_no",
   "tr_no",
   "section_break_dsdnz",
@@ -48,15 +47,6 @@
   {
    "fieldname": "column_break_s1deb",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Receipt Form",
-   "print_hide": 1,
-   "read_only": 1
   },
   {
    "fieldname": "receipt_no",
@@ -101,15 +91,6 @@
    "options": "currency"
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Receipt Form",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
    "default": "0",
    "fieldname": "payment_entry_done",
    "fieldtype": "Check",
@@ -127,7 +108,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-15 16:37:14.091071",
+ "modified": "2023-06-15 17:44:36.546011",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",
