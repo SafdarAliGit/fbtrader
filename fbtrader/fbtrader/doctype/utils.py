@@ -413,4 +413,4 @@ def fetch_purchased_items_info_by_batch_no(**args):
         """, (item_code,batch_no,),
         as_dict=1
     )
-    return data[0]
+    return data

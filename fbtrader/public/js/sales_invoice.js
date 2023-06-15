@@ -1157,9 +1157,10 @@ frappe.ui.form.on('Sales Invoice Item', {
 
     // CUSTOM FUNCTION TO FECTCH RECENT SOLD ITEMS END
     	// ========================================
+    // FETCHING ITEM INFO FROM PURCHASE INVOICE ITEM UISNG BATCH NO AND ITEM CODE
     batch_no: function (frm, cdt, cdn) {
         var d = locals[cdt][cdn];
-        if (d.item_code) {
+        if (d.item_code && d.batch_no) {
             frappe.call({
                 method: 'fbtrader.fbtrader.doctype.utils.fetch_purchased_items_info_by_batch_no',
                 args: {
@@ -1168,8 +1169,16 @@ frappe.ui.form.on('Sales Invoice Item', {
                 },
                 callback: function (r) {
                     if (!r.exc) {
-                    frappe.model.set_value(cdt,cdn, 'kg_per_ctn',r.message.kg_per_ctn);
-                    frappe.model.set_value(cdt,cdn, 'lbs_per_ctn',r.message.lbs_per_ctn);
+                        console.log(r.message);
+                    if (r.message.length === 1 ){
+                        frappe.model.set_value(cdt,cdn, 'kg_per_ctn',r.message[0].kg_per_ctn);
+                        frappe.model.set_value(cdt,cdn, 'lbs_per_ctn',r.message[0].lbs_per_ctn);
+                    } else if (r.message.length>1){
+                       frappe.msgprint(`Multiple Items found under batch no ${d.batch_no}`)
+                    }else {
+                        frappe.msgprint(`No any Item found under batch no ${d.batch_no}`)
+                    }
+
 
                     }
                 }
