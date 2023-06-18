@@ -1179,6 +1179,7 @@ frappe.ui.form.on('Sales Invoice Item', {
                     if (r.message.length === 1 ){
                         frappe.model.set_value(cdt,cdn, 'kg_per_ctn',r.message[0].kg_per_ctn);
                         frappe.model.set_value(cdt,cdn, 'lbs_per_ctn',r.message[0].lbs_per_ctn);
+                        frappe.model.set_value(cdt,cdn, 'qty',r.message[0].qty);
                     } else if (r.message.length>1){
                        frappe.msgprint(`Multiple Items found under batch no ${d.batch_no}`)
                     }else {

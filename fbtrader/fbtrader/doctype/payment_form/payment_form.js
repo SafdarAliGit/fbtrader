@@ -35,6 +35,7 @@ frappe.ui.form.on('Payment Form', {
         }
 
         // PAYMENT END
+        const CHILDS = {}
         frappe.call({
             method: 'fbtrader.fbtrader.doctype.utils.fetch_child_records',
             args: {
@@ -46,7 +47,7 @@ frappe.ui.form.on('Payment Form', {
                     // Process child records as needed
                     frm.doc.receipt_form_item = []
 
-                    $.each(childRecords, function (_i, e) {
+                   $.each(childRecords, function (_i, e) {
                         let entry = frm.add_child("receipt_form_item");
                         entry.id = e.name
                         entry.mode_of_payment = e.mode_of_payment,
@@ -151,7 +152,7 @@ frappe.ui.form.on('Payment Form', {
                                         entry.out_date = frm.doc.receipt_date,
                                         entry.name_id = e.name_id
                                 })
-                                refresh_field("receipt_form_item")
+                                frm.refresh_field("receipt_form_item")
                             }
 
                             function calculate_net_total(frm) {

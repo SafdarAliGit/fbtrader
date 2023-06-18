@@ -407,7 +407,7 @@ def fetch_purchased_items_info_by_batch_no(**args):
     data = frappe.db.sql(
         """
         select 
-            `tabPurchase Invoice Item`.kg_per_ctn, `tabPurchase Invoice Item`.lbs_per_ctn
+            `tabPurchase Invoice Item`.qty,`tabPurchase Invoice Item`.kg_per_ctn, `tabPurchase Invoice Item`.lbs_per_ctn
         from `tabBatch`, `tabPurchase Invoice Item`
         where `tabBatch`.item = `tabPurchase Invoice Item`.item_code
             and `tabBatch`.batch_id =  `tabPurchase Invoice Item`.batch_no and `tabBatch`.item = %s
