@@ -1042,19 +1042,13 @@ frappe.ui.form.on('Sales Invoice', {
             }
         });
     },
-    // CUSTOM GETTING CUSTOMER BALANCE END
-    // CUSTOM  COPY COMMISSION TO WRITE OF AMOUNT
 
-	commission:function(frm) {
-	var commission = frm.doc.commission;
-	frm.set_value("write_off_amount", commission);
-	},
-
-    // CUSTOM  COPY COMMISSION TO WRITE OF AMOUNT END
-    	// CUSTOM WORK
+    	// CUSTOM WORK WRITE OFF CALCULATION
 	write_off_percentage: function (frm){
 		var write_off_amount = frm.doc.total * (frm.doc.write_off_percentage/100);
 		frm.set_value('write_off_amount',write_off_amount);
+		frm.set_value('commission_amount',write_off_amount);
+		frm.set_value('write_off_account',"Write Off - FT");
 	},
 	// END CUSTOM WORK
 });
