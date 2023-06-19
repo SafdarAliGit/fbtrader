@@ -1045,10 +1045,11 @@ frappe.ui.form.on('Sales Invoice', {
 
     	// CUSTOM WORK WRITE OFF CALCULATION
 	write_off_percentage: function (frm){
-		var write_off_amount = frm.doc.total * (frm.doc.write_off_percentage/100);
-		frm.set_value('write_off_amount',write_off_amount);
-		frm.set_value('commission_amount',write_off_amount);
-		frm.set_value('write_off_account',"Write Off - FT");
+        var commission_percentage = frm.doc.write_off_percentage;
+		var commission_amount = frm.doc.total * (commission_percentage/100);
+		frm.set_value('commission_amount',commission_amount);
+		frm.set_value('additional_discount_percentage',commission_percentage);
+		frm.set_value('discount_amount',commission_amount);
 	},
 	// END CUSTOM WORK
 });
