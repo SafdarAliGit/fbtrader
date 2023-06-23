@@ -80,6 +80,19 @@ frappe.ui.form.on('Receipt Form Item', {
         }
 
         calculate_net_total(frm)
+    },
+      mode_of_payment: function (frm, cdt, cdn) {
+        var row = locals[cdt][cdn];
+        var mode_of_payment = row.mode_of_payment;
+        if(mode_of_payment == 'Cheque'){
+            frappe.meta.get_docfield('Receipt Form Item', 'bank_name', row.name).reqd = 1;
+            frappe.meta.get_docfield('Receipt Form Item', 'cheque_no', row.name).reqd = 1;
+        }
+        if(mode_of_payment == 'Online Deposit'){
+            frappe.meta.get_docfield('Receipt Form Item', 'bank_name', row.name).reqd = 1;
+            frappe.meta.get_docfield('Receipt Form Item', 'slip_no', row.name).reqd = 1;
+            frappe.meta.get_docfield('Receipt Form Item', 'account_title', row.name).reqd = 1;
+        }
+
     }
-})
-;
+});

@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:PF-{########}",
+ "autoname": "PF.-.YY.-.####",
  "creation": "2023-06-04 23:40:41.321974",
  "default_view": "List",
  "doctype": "DocType",
@@ -108,11 +108,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-19 19:34:35.434906",
+ "modified": "2023-06-23 16:58:38.456161",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",
- "naming_rule": "Expression",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
