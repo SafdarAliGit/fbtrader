@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:RF-{########}",
+ "autoname": "RF.-.########",
  "creation": "2023-06-04 21:27:07.329843",
  "default_view": "List",
  "doctype": "DocType",
@@ -118,11 +118,11 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-15 16:36:18.467278",
+ "modified": "2023-06-23 15:37:14.074393",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form",
- "naming_rule": "Expression",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
