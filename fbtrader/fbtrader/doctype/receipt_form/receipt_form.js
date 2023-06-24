@@ -1,8 +1,12 @@
 // Copyright (c) 2023, Tech Ventures and contributors
 // For license information, please see license.txt
-
+    const Obj = {
+        n: 0
+    }
 frappe.ui.form.on('Receipt Form', {
+
     refresh: function (frm) {
+        Obj.n = 0;
         function calculate_net_total(frm) {
             var total_amount = 0;
             $.each(frm.doc.receipt_form_item || [], function (i, d) {
@@ -43,26 +47,36 @@ frappe.ui.form.on('Receipt Form', {
         });
         frm.refresh_field('receipt_form_item');
     },
-    after_save:function (frm){
-        $.each(frm.doc.receipt_form_item || [], function (i, d) {
-                d.name_id= d.name;
-            });
-    },
-    before_submit:function (frm){
-        $.each(frm.doc.receipt_form_item || [], function (i, d) {
-                d.name_id= d.name;
-            });
-    }
+    // after_save:function (frm){
+    //     $.each(frm.doc.receipt_form_item || [], function (i, d) {
+    //             d.name_id= d.name;
+    //         });
+    // },
+    // before_submit:function (frm){
+    //     $.each(frm.doc.receipt_form_item || [], function (i, d) {
+    //             d.name_id= d.name;
+    //         });
+    // }
 
 
 
 });
+
+
 frappe.ui.form.on('Receipt Form Item', {
 
     receipt_form_item_add: function (frm, cdt, cdn) {
+        frappe.call({
+            method: 'fbtrader.fbtrader.doctype.utils.get_receipt_form_item_count',
+            callback: function(response) {
+                Obj.n +=1
+                frappe.model.set_value(cdt, cdn, 'name_id',`PD-${(response.message) + Obj.n}` );
+             }
+        });
+
+
         var master_party = frm.doc.party;
         if (master_party) {
-            var row = locals[cdt][cdn];
             frappe.model.set_value(cdt, cdn, 'in_party', master_party);
         } else {
             frappe.msgprint("Select Party First");

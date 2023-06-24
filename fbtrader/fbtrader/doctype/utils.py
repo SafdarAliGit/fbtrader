@@ -416,3 +416,8 @@ def fetch_purchased_items_info_by_batch_no(**args):
         as_dict=1
     )
     return data
+
+@frappe.whitelist()
+def get_receipt_form_item_count():
+    count = frappe.db.count('Receipt Form Item')
+    return count
