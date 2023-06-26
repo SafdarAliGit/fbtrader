@@ -9,6 +9,7 @@ def validate_duplicate_rows(doc, method):
         duplicate_rows = frappe.db.sql("""
             SELECT name FROM `tabReceipt Form Item`
             WHERE cheque_no = %s
+            AND docstatus = 1
         """, (row.cheque_no))
 
         # If duplicate rows are found, raise an exception

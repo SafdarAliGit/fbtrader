@@ -116,7 +116,7 @@ doctype_js = {"Purchase Invoice": "public/js/purchase_invoice.js", "Sales Invoic
 # }
 doc_events = {
     'Receipt Form': {
-        'before_insert': 'fbtrader.custom_script.validate_duplicate_rows'
+        'before_submit': 'fbtrader.custom_script.validate_duplicate_rows'
     }
 }
 # Scheduled Tasks
