@@ -72,8 +72,7 @@
    "fieldtype": "Data",
    "ignore_user_permissions": 1,
    "in_list_view": 1,
-   "label": "Chq/Ref ",
-   "unique": 1
+   "label": "Chq/Ref "
   },
   {
    "allow_on_submit": 1,
@@ -160,7 +159,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-24 17:34:51.818571",
+ "modified": "2023-06-26 13:54:29.814156",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form Item",
