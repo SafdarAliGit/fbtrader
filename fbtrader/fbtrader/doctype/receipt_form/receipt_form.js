@@ -32,6 +32,7 @@ frappe.ui.form.on('Receipt Form', {
                             // frappe.model.sync(r.message);
                             frappe.show_alert("Payment Entry Created");
                         }
+                        frm.reload_doc();
                     }
                 });
 

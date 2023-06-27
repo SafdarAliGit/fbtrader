@@ -24,7 +24,7 @@ def fetch_recent_soled_items(**args):
         from `tabSales Invoice`, `tabSales Invoice Item`
         where `tabSales Invoice`.name = `tabSales Invoice Item`.parent
             and `tabSales Invoice`.docstatus = 1 and `tabSales Invoice Item`.item_code = %s  order by `tabSales Invoice Item`.parent 
-        """,(item_code, ),
+        """, (item_code,),
         as_dict=1
     )[:5]
 
@@ -43,6 +43,7 @@ def fetch_recent_soled_items(**args):
     )[:5]
     return data
 
+
 @frappe.whitelist()
 def fetch_recent_purchased_items(**args):
     item_code = args.get('item_code')
@@ -60,6 +61,7 @@ def fetch_recent_purchased_items(**args):
         as_dict=1
     )[:5]
     return data
+
 
 @frappe.whitelist()
 def fetch_child_records(**args):
@@ -341,7 +343,7 @@ def payment_entry_from_payment_form(**args):
                                        fields=['in_date', 'in_party', 'mode_of_payment', 'bank_name', 'account_title',
                                                'cheque_no', 'bank_date', 'amount', 'out_party', 'out_date',
                                                'payment_form_id'
-                                           , 'status', 'id','slip_no'])
+                                           , 'status', 'id', 'slip_no'])
     if len(receipt_form_item) > 0:
         if not source_name.payment_entry_done:
             currency = frappe.defaults.get_defaults().currency
@@ -360,7 +362,7 @@ def payment_entry_from_payment_form(**args):
                 paid_to = get_party_account(party_type, party=party, company=company)
             except:
                 frappe.throw("Error occured finding paid from account ")
-            tr_no = source_name.tr_no
+            tr_no = source_name.name
             for item in receipt_form_item:
                 try:
                     pe = frappe.new_doc("Payment Entry")
@@ -394,11 +396,43 @@ def payment_entry_from_payment_form(**args):
                     # return si
                 except Exception as error:
                     frappe.throw("Payment Entry Not Created")
-            frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done',1)
+            if source_name.cash_payment > 0:
+                try:
+                    pe = frappe.new_doc("Payment Entry")
+                    pe.posting_date = posting_date
+                    pe.payment_type = payment_type
+                    pe.party_type = party_type
+                    pe.party = party
+                    pe.party_name = party_name
+                    pe.paid_to = paid_to
+                    pe.paid_from_account_currency = currency
+                    pe.paid_to_account_currency = currency
+                    pe.paid_amount = source_name.cash_payment
+                    pe.company = company
+                    pe.cost_center = cost_center
+                    pe.target_exchange_rate = 1
+                    pe.source_exchange_rate = 1
+                    pe.base_paid_amount = source_name.cash_payment
+                    pe.base_received_amount = source_name.cash_payment
+                    pe.received_amount = source_name.cash_payment
+                    pe.custom_remarks = 1
+                    pe.remarks = f"Amount {currency} {source_name.cash_payment} paid to {party_name} Tr # {tr_no}"
+                    pe.tr_no = tr_no
+                    pe.mode_of_payment = 'Cash'
+                    pe.paid_from = get_bank_cash_account('Cash', company)['account']
+                    pe.submit()
+                    # return si
+                except Exception as error:
+                    frappe.throw("Cash Payment Entry Not Created")
+
+            frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done', 1)
         else:
             frappe.throw("Payment Entry already created")
     else:
         frappe.throw("No detail record found")
+
+
+
 
 @frappe.whitelist()
 def fetch_purchased_items_info_by_batch_no(**args):
@@ -412,10 +446,11 @@ def fetch_purchased_items_info_by_batch_no(**args):
         where `tabBatch`.item = `tabPurchase Invoice Item`.item_code
             and `tabBatch`.batch_id =  `tabPurchase Invoice Item`.batch_no and `tabBatch`.item = %s
              and `tabBatch`.batch_id = %s  order by `tabPurchase Invoice Item`.parent 
-        """, (item_code,batch_no,),
+        """, (item_code, batch_no,),
         as_dict=1
     )
     return data
+
 
 @frappe.whitelist()
 def get_receipt_form_item_count():

@@ -13,7 +13,7 @@ class PaymentForm(Document):
             self.posting_date = self.posting_date
             self.party = self.party
             self.receipt_date = self.receipt_date
-            self.tr_no = self.tr_no
+            self.tr_no = self.name
             self.docstatus = DocStatus.submitted()
 
             for item in self.receipt_form_item:

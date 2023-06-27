@@ -28,6 +28,7 @@ frappe.ui.form.on('Payment Form', {
                             // frappe.model.sync(r.message);
                             frappe.show_alert("Payment Entry Created");
                         }
+                        frm.reload_doc();
                     }
                 });
 
@@ -47,7 +48,7 @@ frappe.ui.form.on('Payment Form', {
                     // Process child records as needed
                     frm.doc.receipt_form_item = []
 
-                   $.each(childRecords, function (_i, e) {
+                    $.each(childRecords, function (_i, e) {
                         let entry = frm.add_child("receipt_form_item");
                         entry.id = e.name
                         entry.mode_of_payment = e.mode_of_payment,
@@ -85,7 +86,14 @@ frappe.ui.form.on('Payment Form', {
                         label: 'Mode Of Payment',
                         fieldname: 'mode_of_payment',
                         fieldtype: 'Link',
-                        options: 'Mode of Payment'
+                        options: 'Mode of Payment',
+                        "get_query": function () {
+                            return {
+                                "filters": [
+                                    ['Mode of Payment', 'mode_of_payment', 'in', 'Cheque,Online Deposit']
+                                ]
+                            }
+                        }
                     },
                     {
                         label: 'Bank Name',
@@ -109,7 +117,7 @@ frappe.ui.form.on('Payment Form', {
                         fieldname: 'slip_no',
                         fieldtype: 'Data'
                     },
-{
+                    {
                         label: 'Bank Date',
                         fieldname: 'bank_date',
                         fieldtype: 'Date'
