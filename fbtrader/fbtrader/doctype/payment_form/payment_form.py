@@ -26,4 +26,4 @@ class PaymentForm(Document):
                 rfi.save()
             self.receipt_form_item = []
         else:
-            frappe.msgprint("Detail record not found")
+            frappe.throw("Detail record not found")

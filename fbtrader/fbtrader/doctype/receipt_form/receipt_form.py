@@ -7,4 +7,6 @@ from frappe.model.document import Document
 
 class ReceiptForm(Document):
 
-   pass
+    def before_save(self):
+        if len(self.receipt_form_item) < 1:
+            frappe.throw("Detail Record not found !")
