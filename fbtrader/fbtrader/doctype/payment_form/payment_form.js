@@ -89,7 +89,7 @@ frappe.ui.form.on('Payment Form', {
                         fieldname: 'mode_of_payment',
                         fieldtype: 'Link',
                         options: 'Mode of Payment',
-                        // reqd: 1,
+                        reqd: 1,
                         "get_query": function () {
                             return {
                                 "filters": [
