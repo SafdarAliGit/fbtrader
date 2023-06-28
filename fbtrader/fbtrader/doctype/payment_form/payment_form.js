@@ -7,7 +7,9 @@ frappe.ui.form.on('Payment Form', {
             $.each(frm.doc.receipt_form_item || [], function (i, d) {
                 total_amount += flt(d.amount);
             });
-            frm.set_value("total_amount", total_amount)
+            frm.set_value("detail_total", total_amount);
+            frm.set_value("total_amount", total_amount + frm.doc.cash_payment);
+
         }
 
         calculate_net_total(frm)
@@ -87,7 +89,7 @@ frappe.ui.form.on('Payment Form', {
                         fieldname: 'mode_of_payment',
                         fieldtype: 'Link',
                         options: 'Mode of Payment',
-                        reqd: 1,
+                        // reqd: 1,
                         "get_query": function () {
                             return {
                                 "filters": [
@@ -169,7 +171,8 @@ frappe.ui.form.on('Payment Form', {
                                 $.each(frm.doc.receipt_form_item || [], function (i, d) {
                                     total_amount += flt(d.amount);
                                 });
-                                frm.set_value("total_amount", total_amount)
+                                frm.set_value("detail_total", total_amount);
+                                frm.set_value("total_amount", total_amount + frm.doc.cash_payment);
                             }
 
                             calculate_net_total(frm)
@@ -218,6 +221,10 @@ frappe.ui.form.on('Payment Form', {
 
 
     },
+      cash_payment: function (frm) {
+        frm.set_value('total_amount',frm.doc.total_amount + frm.doc.cash_payment);
+        frm.set_value('detail_total',frm.doc.detail_total + frm.doc.cash_payment);
+    },
 
     // validate: function (frm) {
     //     // Remove child documents before saving
@@ -250,7 +257,8 @@ frappe.ui.form.on('Receipt Form Item', {
             $.each(frm.doc.receipt_form_item || [], function (i, d) {
                 total_amount += flt(d.amount);
             });
-            frm.set_value("total_amount", total_amount)
+             frm.set_value("detail_total", total_amount);
+            frm.set_value("total_amount", total_amount + frm.doc.cash_payment);
         }
 
         calculate_net_total(frm)
@@ -261,7 +269,8 @@ frappe.ui.form.on('Receipt Form Item', {
             $.each(frm.doc.receipt_form_item || [], function (i, d) {
                 total_amount += flt(d.amount);
             });
-            frm.set_value("total_amount", total_amount)
+             frm.set_value("detail_total", total_amount);
+            frm.set_value("total_amount", total_amount + frm.doc.cash_payment);
         }
 
         calculate_net_total(frm)

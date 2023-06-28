@@ -15,12 +15,14 @@
   "column_break_s1deb",
   "receipt_no",
   "tr_no",
-  "cash_payment",
   "section_break_dsdnz",
+  "ac_no",
   "receipt_form_item",
   "section_break_crvb6",
-  "ac_no",
+  "cash_payment",
   "column_break_omucr",
+  "detail_total",
+  "column_break_elpcs",
   "total_amount",
   "payment_entry_done",
   "naming_series"
@@ -78,6 +80,7 @@
   {
    "fieldname": "ac_no",
    "fieldtype": "Data",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Ac #"
   },
@@ -121,12 +124,23 @@
    "default": "0",
    "fieldname": "cash_payment",
    "fieldtype": "Currency",
-   "label": "Cash Payment"
+   "label": "Cash Payment  "
+  },
+  {
+   "default": "0",
+   "fieldname": "detail_total",
+   "fieldtype": "Currency",
+   "label": "  Detail Total",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_elpcs",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-27 20:51:23.504950",
+ "modified": "2023-06-28 17:47:41.571720",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",
