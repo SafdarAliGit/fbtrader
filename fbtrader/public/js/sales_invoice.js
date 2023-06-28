@@ -1042,6 +1042,11 @@ frappe.ui.form.on('Sales Invoice', {
             }
         });
     },
+    // CUSTOM
+     payment_terms_: function (frm) {
+       var payment_terms_template = frm.doc.payment_terms_;
+       frm.set_value('payment_terms_template',payment_terms_template);
+    },
 
     	// CUSTOM WORK WRITE OFF CALCULATION
 	write_off_percentage: function (frm){
