@@ -9,7 +9,7 @@ from frappe.model.document import Document
 class PaymentForm(Document):
 
     def before_save(self):
-        if len(self.receipt_form_item) > 0:
+        if len(self.receipt_form_item) > 0 or self.cash_payment > 0:
             self.posting_date = self.posting_date
             self.party = self.party
             self.receipt_date = self.receipt_date

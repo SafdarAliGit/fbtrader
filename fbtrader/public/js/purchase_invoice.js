@@ -163,6 +163,9 @@ erpnext.accounts.PurchaseInvoice = class PurchaseInvoice extends erpnext.buying.
 
 		this.frm.set_df_property("tax_withholding_category", "hidden", doc.apply_tds ? 0 : 1);
 	}
+   // CUSTOM
+  // CUSTOM
+
 
 	unblock_invoice() {
 		const me = this;
@@ -638,6 +641,11 @@ frappe.ui.form.on("Purchase Invoice", {
 			});
 		}
 	},
+    	payment_terms: function (frm) {
+       var payment_terms_template = frm.doc.payment_terms;
+       frm.set_value('payment_terms_template',payment_terms_template);
+    }
+
 });
 
 

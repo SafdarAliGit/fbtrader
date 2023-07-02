@@ -344,58 +344,60 @@ def payment_entry_from_payment_form(**args):
                                                'cheque_no', 'bank_date', 'amount', 'out_party', 'out_date',
                                                'payment_form_id'
                                            , 'status', 'id', 'slip_no'])
-    if len(receipt_form_item) > 0:
+    
+    currency = frappe.defaults.get_defaults().currency
+    company = frappe.defaults.get_defaults().company
+    posting_date = source_name.posting_date
+    try:
+        cost_center_and_income_ac_dict = get_cost_center_and_income_account(company)
+        cost_center = cost_center_and_income_ac_dict['cost_center']
+    except:
+        frappe.throw("Error occured finding cost center")
+    payment_type = 'Pay'
+    party_type = 'Supplier'
+    party = source_name.party
+    party_name = source_name.party_name
+    try:
+        paid_to = get_party_account(party_type, party=party, company=company)
+    except:
+        frappe.throw("Error occured finding paid from account ")
+    tr_no = source_name.name
+    if len(receipt_form_item) > 0 or source_name.cash_payment > 0:
         if not source_name.payment_entry_done:
-            currency = frappe.defaults.get_defaults().currency
-            company = frappe.defaults.get_defaults().company
-            posting_date = source_name.posting_date
-            try:
-                cost_center_and_income_ac_dict = get_cost_center_and_income_account(company)
-                cost_center = cost_center_and_income_ac_dict['cost_center']
-            except:
-                frappe.throw("Error occured finding cost center")
-            payment_type = 'Pay'
-            party_type = 'Supplier'
-            party = source_name.party
-            party_name = source_name.party_name
-            try:
-                paid_to = get_party_account(party_type, party=party, company=company)
-            except:
-                frappe.throw("Error occured finding paid from account ")
-            tr_no = source_name.name
-            for item in receipt_form_item:
-                try:
-                    pe = frappe.new_doc("Payment Entry")
-                    pe.posting_date = posting_date
-                    pe.payment_type = payment_type
-                    pe.party_type = party_type
-                    pe.party = party
-                    pe.party_name = party_name
-                    pe.paid_to = paid_to
-                    pe.paid_from_account_currency = currency
-                    pe.paid_to_account_currency = currency
-                    pe.paid_amount = item.amount
-                    pe.company = company
-                    pe.cost_center = cost_center
-                    pe.target_exchange_rate = 1
-                    pe.source_exchange_rate = 1
-                    pe.base_paid_amount = item.amount
-                    pe.base_received_amount = item.amount
-                    pe.received_amount = item.amount
-                    pe.custom_remarks = 1
-                    pe.remarks = f"Amount {currency} {item.amount} paid to {party_name} Tr # {tr_no}"
-                    pe.tr_no = tr_no
-                    pe.mode_of_payment = item.mode_of_payment
-                    pe.paid_from = get_bank_cash_account(item.mode_of_payment, company)['account']
-                    if item.mode_of_payment == 'Online Deposit':
-                        pe.slip_no = item.cheque_no
-                    if item.mode_of_payment == 'Cheque':
-                        pe.reference_no = item.cheque_no
-                        pe.reference_date = item.posting_date
-                    pe.submit()
-                    # return si
-                except Exception as error:
-                    frappe.throw("Payment Entry Not Created")
+            if len(receipt_form_item) > 0:
+                for item in receipt_form_item:
+                    try:
+                        pe = frappe.new_doc("Payment Entry")
+                        pe.posting_date = posting_date
+                        pe.payment_type = payment_type
+                        pe.party_type = party_type
+                        pe.party = party
+                        pe.party_name = party_name
+                        pe.paid_to = paid_to
+                        pe.paid_from_account_currency = currency
+                        pe.paid_to_account_currency = currency
+                        pe.paid_amount = item.amount
+                        pe.company = company
+                        pe.cost_center = cost_center
+                        pe.target_exchange_rate = 1
+                        pe.source_exchange_rate = 1
+                        pe.base_paid_amount = item.amount
+                        pe.base_received_amount = item.amount
+                        pe.received_amount = item.amount
+                        pe.custom_remarks = 1
+                        pe.remarks = f"Amount {currency} {item.amount} paid to {party_name} Tr # {tr_no}"
+                        pe.tr_no = tr_no
+                        pe.mode_of_payment = item.mode_of_payment
+                        pe.paid_from = get_bank_cash_account(item.mode_of_payment, company)['account']
+                        if item.mode_of_payment == 'Online Deposit':
+                            pe.slip_no = item.cheque_no
+                        if item.mode_of_payment == 'Cheque':
+                            pe.reference_no = item.cheque_no
+                            pe.reference_date = item.posting_date
+                        pe.submit()
+                        # return si
+                    except Exception as error:
+                        frappe.throw("Payment Entry Not Created")
             if source_name.cash_payment > 0:
                 try:
                     pe = frappe.new_doc("Payment Entry")
@@ -423,15 +425,13 @@ def payment_entry_from_payment_form(**args):
                     pe.submit()
                     # return si
                 except Exception as error:
-                    frappe.throw("Cash Payment Entry Not Created")
+                    frappe.throw(f"{error}")
 
             frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done', 1)
         else:
             frappe.throw("Payment Entry already created")
     else:
         frappe.throw("No detail record found")
-
-
 
 
 @frappe.whitelist()
