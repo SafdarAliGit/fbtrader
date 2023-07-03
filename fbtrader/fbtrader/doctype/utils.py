@@ -344,7 +344,7 @@ def payment_entry_from_payment_form(**args):
                                                'cheque_no', 'bank_date', 'amount', 'out_party', 'out_date',
                                                'payment_form_id'
                                            , 'status', 'id', 'slip_no'])
-    
+
     currency = frappe.defaults.get_defaults().currency
     company = frappe.defaults.get_defaults().company
     posting_date = source_name.posting_date

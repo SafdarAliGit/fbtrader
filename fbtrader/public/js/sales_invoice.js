@@ -1043,8 +1043,8 @@ frappe.ui.form.on('Sales Invoice', {
         });
     },
     // CUSTOM
-     payment_terms_: function (frm) {
-       var payment_terms_template = frm.doc.payment_terms_;
+     payment_terms: function (frm) {
+       var payment_terms_template = frm.doc.payment_terms;
        frm.set_value('payment_terms_template',payment_terms_template);
     },
 
