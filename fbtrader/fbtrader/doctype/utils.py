@@ -314,7 +314,7 @@ def payment_entry_from_receipt_form(source_name):
                     pe.base_received_amount = item.amount
                     pe.received_amount = item.amount
                     pe.custom_remarks = 1
-                    pe.remarks = f"Amount {currency} {item.amount} received from {party_name} Tr # {tr_no}"
+                    pe.remarks = f"Amount {currency} {item.amount} received from {party_name} Tr # {tr_no} Serial# {item.name_id}"
                     pe.tr_no = tr_no
                     pe.mode_of_payment = item.mode_of_payment
                     pe.paid_from = paid_from
@@ -343,7 +343,7 @@ def payment_entry_from_payment_form(**args):
                                        fields=['in_date', 'in_party', 'mode_of_payment', 'bank_name', 'account_title',
                                                'cheque_no', 'bank_date', 'amount', 'out_party', 'out_date',
                                                'payment_form_id'
-                                           , 'status', 'id', 'slip_no'])
+                                           , 'status', 'name_id', 'slip_no'])
 
     currency = frappe.defaults.get_defaults().currency
     company = frappe.defaults.get_defaults().company
@@ -385,7 +385,7 @@ def payment_entry_from_payment_form(**args):
                         pe.base_received_amount = item.amount
                         pe.received_amount = item.amount
                         pe.custom_remarks = 1
-                        pe.remarks = f"Amount {currency} {item.amount} paid to {party_name} Tr # {tr_no}"
+                        pe.remarks = f"Amount {currency} {item.amount} paid to {party_name} Tr # {tr_no} Serial# {item.name_id}"
                         pe.tr_no = tr_no
                         pe.mode_of_payment = item.mode_of_payment
                         pe.paid_from = get_bank_cash_account(item.mode_of_payment, company)['account']
@@ -418,7 +418,7 @@ def payment_entry_from_payment_form(**args):
                     pe.base_received_amount = source_name.cash_payment
                     pe.received_amount = source_name.cash_payment
                     pe.custom_remarks = 1
-                    pe.remarks = f"Amount {currency} {source_name.cash_payment} paid to {party_name} Tr # {tr_no}"
+                    pe.remarks = f"Amount {currency} {source_name.cash_payment} paid to {party_name} Tr # {tr_no} Serial# {item.name_id}"
                     pe.tr_no = tr_no
                     pe.mode_of_payment = 'Cash'
                     pe.paid_from = get_bank_cash_account('Cash', company)['account']
