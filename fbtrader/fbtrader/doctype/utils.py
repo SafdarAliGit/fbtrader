@@ -398,34 +398,34 @@ def payment_entry_from_payment_form(**args):
                         # return si
                     except Exception as error:
                         frappe.throw("Payment Entry Not Created")
-            if source_name.cash_payment > 0:
-                try:
-                    pe = frappe.new_doc("Payment Entry")
-                    pe.posting_date = posting_date
-                    pe.payment_type = payment_type
-                    pe.party_type = party_type
-                    pe.party = party
-                    pe.party_name = party_name
-                    pe.paid_to = paid_to
-                    pe.paid_from_account_currency = currency
-                    pe.paid_to_account_currency = currency
-                    pe.paid_amount = source_name.cash_payment
-                    pe.company = company
-                    pe.cost_center = cost_center
-                    pe.target_exchange_rate = 1
-                    pe.source_exchange_rate = 1
-                    pe.base_paid_amount = source_name.cash_payment
-                    pe.base_received_amount = source_name.cash_payment
-                    pe.received_amount = source_name.cash_payment
-                    pe.custom_remarks = 1
-                    pe.remarks = f"Amount {currency} {source_name.cash_payment} paid to {party_name} Tr # {tr_no} Serial# {item.name_id}"
-                    pe.tr_no = tr_no
-                    pe.mode_of_payment = 'Cash'
-                    pe.paid_from = get_bank_cash_account('Cash', company)['account']
-                    pe.submit()
-                    # return si
-                except Exception as error:
-                    frappe.throw(f"{error}")
+                if source_name.cash_payment > 0:
+                    try:
+                        pe = frappe.new_doc("Payment Entry")
+                        pe.posting_date = posting_date
+                        pe.payment_type = payment_type
+                        pe.party_type = party_type
+                        pe.party = party
+                        pe.party_name = party_name
+                        pe.paid_to = paid_to
+                        pe.paid_from_account_currency = currency
+                        pe.paid_to_account_currency = currency
+                        pe.paid_amount = source_name.cash_payment
+                        pe.company = company
+                        pe.cost_center = cost_center
+                        pe.target_exchange_rate = 1
+                        pe.source_exchange_rate = 1
+                        pe.base_paid_amount = source_name.cash_payment
+                        pe.base_received_amount = source_name.cash_payment
+                        pe.received_amount = source_name.cash_payment
+                        pe.custom_remarks = 1
+                        pe.remarks = f"Amount {currency} {source_name.cash_payment} paid to {party_name} Tr # {tr_no} Serial# {item.name_id}"
+                        pe.tr_no = tr_no
+                        pe.mode_of_payment = 'Cash'
+                        pe.paid_from = get_bank_cash_account('Cash', company)['account']
+                        pe.submit()
+                        # return si
+                    except Exception as error:
+                        frappe.throw(f"{error}")
 
             frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done', 1)
         else:
