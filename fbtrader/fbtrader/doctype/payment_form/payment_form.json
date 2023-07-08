@@ -15,6 +15,8 @@
   "column_break_s1deb",
   "receipt_no",
   "tr_no",
+  "primary_party",
+  "secondary_party",
   "section_break_dsdnz",
   "ac_no",
   "receipt_form_item",
@@ -39,7 +41,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Party",
-   "options": "Supplier"
+   "options": "Party Link"
   },
   {
    "default": "Today",
@@ -105,7 +107,7 @@
    "label": "Payment Entry Done"
   },
   {
-   "fetch_from": "party.supplier_name",
+   "fetch_from": "party.primary_party",
    "fieldname": "party_name",
    "fieldtype": "Data",
    "hidden": 1,
@@ -136,11 +138,23 @@
   {
    "fieldname": "column_break_elpcs",
    "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "party.primary_party",
+   "fieldname": "primary_party",
+   "fieldtype": "Data",
+   "label": "Primary Party"
+  },
+  {
+   "fetch_from": "party.secondary_party",
+   "fieldname": "secondary_party",
+   "fieldtype": "Data",
+   "label": "Secondary Party"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-28 17:47:41.571720",
+ "modified": "2023-07-08 19:31:22.786383",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",

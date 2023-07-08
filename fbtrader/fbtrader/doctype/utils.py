@@ -355,10 +355,11 @@ def payment_entry_from_payment_form(**args):
         frappe.throw("Error occured finding cost center")
     payment_type = 'Pay'
     party_type = 'Supplier'
-    party = source_name.party
-    party_name = source_name.party_name
+    party = source_name.secondary_party
+    party_name = source_name.secondary_party
     try:
         paid_to = get_party_account(party_type, party=party, company=company)
+        # paid_to = 'Common Party - FBT'
     except:
         frappe.throw("Error occured finding paid from account ")
     tr_no = source_name.name

@@ -117,6 +117,7 @@
   {
    "allow_on_submit": 1,
    "columns": 1,
+   "fetch_from": "out_party.primary_party",
    "fieldname": "in_party",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
@@ -131,7 +132,7 @@
    "ignore_user_permissions": 1,
    "in_list_view": 1,
    "label": "Out Party",
-   "options": "Supplier"
+   "options": "Party Link"
   },
   {
    "fieldname": "slip_no",
@@ -148,7 +149,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-27 16:33:00.893940",
+ "modified": "2023-07-08 22:00:06.489645",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form Item",
