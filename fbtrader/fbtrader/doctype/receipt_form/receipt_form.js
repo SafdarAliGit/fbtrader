@@ -9,7 +9,7 @@ frappe.ui.form.on('Receipt Form', {
                      frm.set_query('mode_of_payment', 'receipt_form_item', function (doc, cdt, cdn) {
             return {
                 filters: [
-                    ["Mode of Payment", "mode_of_payment", "in", ["Cheque","Online Deposit"]]
+                    ["Mode of Payment", "mode_of_payment", "in", ["Cheque","Online Deposit","Cash"]]
                 ]
             };
         });
