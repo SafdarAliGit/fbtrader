@@ -15,8 +15,6 @@
   "party_name",
   "receipt_no",
   "tr_no",
-  "primary_party",
-  "secondary_party",
   "section_break_dsdnz",
   "ac_no",
   "receipt_form_item",
@@ -137,24 +135,11 @@
   {
    "fieldname": "column_break_elpcs",
    "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "party.primary_party",
-   "fieldname": "primary_party",
-   "fieldtype": "Data",
-   "label": "Primary Party"
-  },
-  {
-   "fetch_from": "party.secondary_party",
-   "fieldname": "secondary_party",
-   "fieldtype": "Data",
-   "label": "Secondary Party"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
-
- "modified": "2023-07-08 19:31:22.786383",
+ "modified": "2023-07-10 17:27:05.865269",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",
