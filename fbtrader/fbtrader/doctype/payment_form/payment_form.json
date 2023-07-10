@@ -11,8 +11,8 @@
   "posting_date",
   "party",
   "receipt_date",
-  "party_name",
   "column_break_s1deb",
+  "party_name",
   "receipt_no",
   "tr_no",
   "primary_party",
@@ -110,7 +110,6 @@
    "fetch_from": "party.primary_party",
    "fieldname": "party_name",
    "fieldtype": "Data",
-   "hidden": 1,
    "label": "Party Name"
   },
   {
@@ -154,7 +153,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
+<<<<<<< HEAD
  "modified": "2023-07-08 19:31:22.786383",
+=======
+ "modified": "2023-07-10 11:53:20.101935",
+>>>>>>> 65e509c (update)
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",

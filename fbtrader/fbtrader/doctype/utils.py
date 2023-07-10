@@ -348,7 +348,16 @@ def payment_entry_from_payment_form(**args):
     currency = frappe.defaults.get_defaults().currency
     company = frappe.defaults.get_defaults().company
     posting_date = source_name.posting_date
+    # try:
+    #     cost_center_and_income_ac_dict = get_cost_center_and_income_account(company)
+    #     cost_center = cost_center_and_income_ac_dict['cost_center']
+    # except:
+    #     frappe.throw("Error occured finding cost center")
+    voucher_type = 'Journal Entry'
+    party_type = 'Customer'
+    party = source_name.party_name
     try:
+
         cost_center_and_income_ac_dict = get_cost_center_and_income_account(company)
         cost_center = cost_center_and_income_ac_dict['cost_center']
     except:
@@ -360,6 +369,9 @@ def payment_entry_from_payment_form(**args):
     try:
         paid_to = get_party_account(party_type, party=party, company=company)
         # paid_to = 'Common Party - FBT'
+
+        account = get_party_account(party_type, party=party, company=company)
+
     except:
         frappe.throw("Error occured finding paid from account ")
     tr_no = source_name.name
@@ -368,69 +380,71 @@ def payment_entry_from_payment_form(**args):
             if len(receipt_form_item) > 0:
                 for item in receipt_form_item:
                     try:
-                        pe = frappe.new_doc("Payment Entry")
-                        pe.posting_date = posting_date
-                        pe.payment_type = payment_type
-                        pe.party_type = party_type
-                        pe.party = party
-                        pe.party_name = party_name
-                        pe.paid_to = paid_to
-                        pe.paid_from_account_currency = currency
-                        pe.paid_to_account_currency = currency
-                        pe.paid_amount = item.amount
-                        pe.company = company
-                        pe.cost_center = cost_center
-                        pe.target_exchange_rate = 1
-                        pe.source_exchange_rate = 1
-                        pe.base_paid_amount = item.amount
-                        pe.base_received_amount = item.amount
-                        pe.received_amount = item.amount
-                        pe.custom_remarks = 1
-                        pe.remarks = f"Amount {currency} {item.amount} paid to {party_name} Tr # {tr_no} Serial# {item.name_id}"
-                        pe.tr_no = tr_no
-                        pe.mode_of_payment = item.mode_of_payment
-                        pe.paid_from = get_bank_cash_account(item.mode_of_payment, company)['account']
+                        je = frappe.new_doc("Journal Entry")
+                        je.posting_date = posting_date
+                        je.voucher_type = voucher_type
+                        je.company = company
+                        je.mode_of_payment = item.mode_of_payment
+                        je.bill_no = tr_no
                         if item.mode_of_payment == 'Online Deposit':
-                            pe.slip_no = item.cheque_no
+                            je.slip_no = item.cheque_no
                         if item.mode_of_payment == 'Cheque':
-                            pe.reference_no = item.cheque_no
-                            pe.reference_date = item.posting_date
-                        pe.submit()
-                        # return si
-                    except Exception as error:
-                        frappe.throw("Payment Entry Not Created")
-                if source_name.cash_payment > 0:
-                    try:
-                        pe = frappe.new_doc("Payment Entry")
-                        pe.posting_date = posting_date
-                        pe.payment_type = payment_type
-                        pe.party_type = party_type
-                        pe.party = party
-                        pe.party_name = party_name
-                        pe.paid_to = paid_to
-                        pe.paid_from_account_currency = currency
-                        pe.paid_to_account_currency = currency
-                        pe.paid_amount = source_name.cash_payment
-                        pe.company = company
-                        pe.cost_center = cost_center
-                        pe.target_exchange_rate = 1
-                        pe.source_exchange_rate = 1
-                        pe.base_paid_amount = source_name.cash_payment
-                        pe.base_received_amount = source_name.cash_payment
-                        pe.received_amount = source_name.cash_payment
-                        pe.custom_remarks = 1
-                        pe.remarks = f"Amount {currency} {source_name.cash_payment} paid to {party_name} Tr # {tr_no} Serial# {item.name_id}"
-                        pe.tr_no = tr_no
-                        pe.mode_of_payment = 'Cash'
-                        pe.paid_from = get_bank_cash_account('Cash', company)['account']
-                        pe.submit()
-                        # return si
+                            je.reference_no = item.cheque_no
+                        cash_account = (
+                            'Chq In Hand - FBT' if item.mode_of_payment == 'Cheque' else
+                            'Online Deposit Slip - FBT' if item.mode_of_payment == 'Online Deposit' else
+                            None
+                        )
+                        je.append("accounts", {
+                            'account': account,
+                            'party_type': party_type,
+                            'party': party,
+                            'debit_in_account_currency': item.amount,
+                            'credit_in_account_currency': 0,
+                            'user_remark': f"Amount {currency} {item.amount} Debited to {party} Tr # {tr_no} Serial# {item.name_id}"
+                        })
+
+                        je.append("accounts", {
+                            'account': cash_account,
+                            'debit_in_account_currency': 0,
+                            'credit_in_account_currency': item.amount,
+                            'user_remark': f"Amount {currency} {item.amount} Credited to {cash_account} Tr # {tr_no} Serial# {item.name_id}"
+                        })
+                        je.submit()
+                        # return je
                     except Exception as error:
                         frappe.throw(f"{error}")
+            if source_name.cash_payment > 0:
+                try:
+                    pje = frappe.new_doc("Journal Entry")
+                    pje.posting_date = posting_date
+                    pje.voucher_type = voucher_type
+                    pje.company = company
+                    pje.bill_no = tr_no
+                    cash_account = 'Cash - FBT'
+                    pje.append("accounts", {
+                        'account': account,
+                        'party_type': party_type,
+                        'party': party,
+                        'debit_in_account_currency': source_name.cash_payment,
+                        'credit_in_account_currency': 0,
+                        'user_remark': f"Amount {currency} {source_name.cash_payment} Debited to {party} Tr # {tr_no}"
+                    })
+
+                    pje.append("accounts", {
+                        'account': cash_account,
+                        'debit_in_account_currency': 0,
+                        'credit_in_account_currency': source_name.cash_payment,
+                        'user_remark': f"Amount {currency} {source_name.cash_payment} Credited to {cash_account} Tr # {tr_no}"
+                    })
+                    pje.submit()
+                    # return si
+                except Exception as error:
+                    frappe.throw(f"{error}")
 
             frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done', 1)
         else:
-            frappe.throw("Payment Entry already created")
+            frappe.throw("Journal Entry already created")
     else:
         frappe.throw("No detail record found")
 

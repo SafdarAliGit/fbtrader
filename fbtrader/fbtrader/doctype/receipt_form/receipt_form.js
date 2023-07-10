@@ -6,6 +6,13 @@
 frappe.ui.form.on('Receipt Form', {
 
     refresh: function (frm) {
+                     frm.set_query('mode_of_payment', 'receipt_form_item', function (doc, cdt, cdn) {
+            return {
+                filters: [
+                    ["Mode of Payment", "mode_of_payment", "in", ["Cheque","Online Deposit"]]
+                ]
+            };
+        });
         Obj.n = 0;
         function calculate_net_total(frm) {
             var total_amount = 0;

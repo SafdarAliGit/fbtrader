@@ -2,6 +2,7 @@
 // For license information, please see license.txt
 frappe.ui.form.on('Payment Form', {
     refresh: function (frm) {
+
         function calculate_net_total(frm) {
             var total_amount = 0;
             $.each(frm.doc.receipt_form_item || [], function (i, d) {

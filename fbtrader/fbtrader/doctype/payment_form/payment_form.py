@@ -23,6 +23,7 @@ class PaymentForm(Document):
                 rfi.status = 'Out'
                 rfi.out_party = self.party
                 rfi.out_date = self.posting_date
+                rfi.docstatus = DocStatus.submitted()
                 rfi.save()
             self.receipt_form_item = []
         else:
