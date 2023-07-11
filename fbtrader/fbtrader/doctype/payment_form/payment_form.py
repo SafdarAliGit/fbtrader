@@ -21,7 +21,7 @@ class PaymentForm(Document):
                 rfi.reload()
                 rfi.payment_form_id = self.name
                 rfi.status = 'Out'
-                rfi.out_party = self.party
+                rfi.out_party = self.party_name
                 rfi.out_date = self.posting_date
                 rfi.docstatus = DocStatus.submitted()
                 rfi.save()

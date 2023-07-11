@@ -62,7 +62,7 @@ frappe.ui.form.on('Payment Form', {
                             entry.bank_date = e.bank_date,
                             entry.amount = e.amount,
                             entry.in_party = e.in_party,
-                            entry.out_party = frm.doc.party,
+                            entry.out_party = frm.doc.party_name,
                             entry.out_date = frm.doc.receipt_date,
                             entry.name_id = e.name_id
                     })
@@ -160,7 +160,7 @@ frappe.ui.form.on('Payment Form', {
                                         entry.bank_date = e.bank_date,
                                         entry.amount = e.amount,
                                         entry.in_party = e.in_party,
-                                        entry.out_party = frm.doc.party,
+                                        entry.out_party = frm.doc.party_name,
                                         entry.out_date = frm.doc.receipt_date,
                                         entry.name_id = e.name_id
                                 })
@@ -242,11 +242,22 @@ frappe.ui.form.on('Payment Form', {
         frappe.msgprint('you are about to cancel');
     },
     party: function (frm) {
-        var master_party = frm.doc.party;
-        frm.doc.receipt_form_item.forEach(function (row) {
-            row.in_party = master_party
-        });
-        frm.refresh_field('receipt_form_item');
+        frappe.call({
+                    method: 'fbtrader.fbtrader.doctype.utils.get_primary_party',
+                    args: {
+                        secondary_party: frm.doc.party,
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            frm.set_value('party_name', r.message);
+                             frm.doc.receipt_form_item.forEach(function (row) {
+                                    row.out_party = r.message
+                             });
+                            frm.refresh_field('receipt_form_item');
+                        }
+                    }
+                });
+
     }
 
 });

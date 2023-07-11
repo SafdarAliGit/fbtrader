@@ -452,3 +452,16 @@ def fetch_purchased_items_info_by_batch_no(**args):
 def get_receipt_form_item_count():
     count = frappe.db.count('Receipt Form Item')
     return count
+
+
+@frappe.whitelist()
+def get_primary_party(**args):
+    party_link = frappe.get_all("Party Link",
+                                filters={"secondary_role": 'Supplier',
+                                         "secondary_party": args.get('secondary_party')}, fields=[
+            'primary_party'], limit=1)[0]
+
+    if party_link:
+        return party_link.primary_party
+    else:
+        return None
