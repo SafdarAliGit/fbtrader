@@ -1,0 +1,67 @@
+
+.std-form-layout {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.29);
+}
+
+ .section-head {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    background-color: #e0e2e3;
+    color: #FFFFFF; /* White font color */
+}
+
+.form-control,
+.form-control:not([type="checkbox"]):not([type="radio"]),
+select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #FFFFFF;
+}
+
+.form-control:focus,
+.form-control:not([type="checkbox"]):not([type="radio"]):focus,
+select:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: #4CAF50; /* Change the border color on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Add a subtle box shadow on focus */
+    background-color: #F0F0F0; /* Change the background color on focus */
+}
+
+.form-control, .like-disabled-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ebedee;
+}
+
+
+/*CANCEL BUTTON*/
+/* Apply styles to the button */
+.btn.btn-secondary.btn-default.btn-sm {
+  background-color: #ff6b6b;
+  color: #ffffff;
+  border: 1px solid #ff6b6b;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px; /* Optimum padding: 8px top and bottom, 12px left and right */
+  border-radius: 4px;
+}
+
+/* Rest of the styles remain the same */
+.btn.btn-secondary.btn-default.btn-sm .alt-underline {
+  text-decoration: underline;
+}
+
+.btn.btn-secondary.btn-default.btn-sm .alt-underline:hover {
+  text-decoration-color: #ffffff;
+}
+
+.btn.btn-secondary.btn-default.btn-sm:hover {
+  background-color: #ff8f8f;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/*CANCEL BUTTON END*/
