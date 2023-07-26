@@ -449,6 +449,24 @@ def fetch_purchased_items_info_by_batch_no(**args):
 
 
 @frappe.whitelist()
+def fetch_do(**args):
+    item_code = args.get('item_code')
+    batch_no = args.get('batch_no')
+    data = frappe.db.sql(
+        """
+        select 
+            `tabPurchase Form`.qty,`tabPurchase Form`.kg_per_ctn, `tabPurchase Form`.lbs_per_ctn, `tabPurchase Form`.kgs,`tabPurchase Form`.lbs
+        from `tabBatch`, `tabPurchase Form`
+        where `tabBatch`.item = `tabPurchase Form`.item_code
+            and `tabBatch`.batch_id =  `tabPurchase Form`.batch_id and `tabBatch`.item = %s
+             and `tabBatch`.batch_id = %s  order by `tabPurchase Form`.name 
+        """, (item_code, batch_no,),
+        as_dict=1
+    )
+    return data
+
+
+@frappe.whitelist()
 def get_receipt_form_item_count():
     count = frappe.db.count('Receipt Form Item')
     return count

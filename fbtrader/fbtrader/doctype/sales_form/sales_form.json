@@ -1,0 +1,296 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "SF-.YY.-.#####",
+ "creation": "2023-07-26 19:18:07.271931",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "bill_information_section",
+  "customer",
+  "column_break_bxcy1",
+  "posting_date",
+  "column_break_mdukm",
+  "due_date",
+  "item_information_section",
+  "item_code",
+  "batch_no",
+  "qty",
+  "kg_per_ctn",
+  "column_break_yctn9",
+  "available_qty",
+  "kgs",
+  "lbs",
+  "rate",
+  "rate_per_lbs",
+  "payment_terms",
+  "column_break_dcbwm",
+  "ref_no",
+  "lot_no",
+  "lbs_per_ctn",
+  "pkg_mode",
+  "grade",
+  "amended_from",
+  "amount_information_section",
+  "current_outstanding_amount",
+  "column_break_tz7hk",
+  "amount",
+  "column_break_1cxum",
+  "commission_percentage",
+  "column_break_sfyes",
+  "commission",
+  "column_break_o6utu",
+  "net_amount",
+  "sales_invoice_created"
+ ],
+ "fields": [
+  {
+   "fieldname": "bill_information_section",
+   "fieldtype": "Section Break",
+   "label": "Customer Detail"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Party",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_bxcy1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_information_section",
+   "fieldtype": "Section Break",
+   "label": "Item & Terms"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "CTN",
+   "reqd": 1
+  },
+  {
+   "fieldname": "kg_per_ctn",
+   "fieldtype": "Data",
+   "label": "KG / CTN"
+  },
+  {
+   "fieldname": "column_break_yctn9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "kgs",
+   "fieldtype": "Data",
+   "label": "KG",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "lbs",
+   "fieldtype": "Float",
+   "label": "LBS",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Rate",
+   "options": "currency"
+  },
+  {
+   "fieldname": "rate_per_lbs",
+   "fieldtype": "Currency",
+   "label": "Rate / LBS"
+  },
+  {
+   "fieldname": "payment_terms",
+   "fieldtype": "Link",
+   "label": "Payment Terms",
+   "options": "Payment Terms Template"
+  },
+  {
+   "fieldname": "column_break_dcbwm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ref_no",
+   "fieldtype": "Data",
+   "label": "Ref No"
+  },
+  {
+   "fieldname": "lot_no",
+   "fieldtype": "Data",
+   "label": "Lot No"
+  },
+  {
+   "fieldname": "lbs_per_ctn",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "LBS / CTN"
+  },
+  {
+   "fieldname": "pkg_mode",
+   "fieldtype": "Select",
+   "label": "Pkg Mode",
+   "options": "\nEven\nUneven"
+  },
+  {
+   "fieldname": "grade",
+   "fieldtype": "Select",
+   "label": "Grade",
+   "options": "\nA\nAA\nA3"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Purchase Form",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount_information_section",
+   "fieldtype": "Section Break",
+   "label": "Amount & Commission"
+  },
+  {
+   "default": "0",
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1cxum",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commission_percentage",
+   "fieldtype": "Percent",
+   "label": "Commission %"
+  },
+  {
+   "fieldname": "column_break_sfyes",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "commission",
+   "fieldtype": "Currency",
+   "label": "Commission Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_o6utu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "net_amount",
+   "fieldtype": "Currency",
+   "label": "Net Amount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "sales_invoice_created",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Sales Invoice Created",
+   "options": "0\n1"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Purchase Form",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "current_outstanding_amount",
+   "fieldtype": "Currency",
+   "label": "Current Outstanding Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Payment Due Date",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "available_qty",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Available Qty"
+  },
+  {
+   "fieldname": "column_break_tz7hk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_mdukm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "batch_no",
+   "fieldtype": "Link",
+   "label": "DO",
+   "options": "Batch"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2023-07-26 20:17:41.992438",
+ "modified_by": "Administrator",
+ "module": "fbtrader",
+ "name": "Sales Form",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
