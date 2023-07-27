@@ -19,6 +19,7 @@ class SalesForm(Document):
 			si.company = frappe.defaults.get_defaults().company
 			si.write_off_percentage = source_name.commission_percentage
 			si.write_off_amount = source_name.commission
+			si.commission_amount = source_name.commission
 
 			sii = si.append("items", {})
 			sii.item_code = source_name.item_code
