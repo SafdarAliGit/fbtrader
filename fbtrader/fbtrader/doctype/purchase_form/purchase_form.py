@@ -1,9 +1,10 @@
 # Copyright (c) 2023, Tech Ventures and contributors
 # For license information, please see license.txt
 import frappe
+from fbtrader.fbtrader.doctype.utils_functions import get_doctype_by_field
 from frappe.model.document import Document
 from frappe.model.naming import make_autoname
-from general_voucher.general_voucher.doctype.utils_functions import get_doctype_by_field
+
 
 
 class PurchaseForm(Document):
@@ -42,9 +43,6 @@ class PurchaseForm(Document):
             pi.submit()
         except Exception as error:
             frappe.throw(f"{error}")
-
-        source_name.purchase_created = 1
-        source_name.save()
 
     def on_cancel(self):
         pi = get_doctype_by_field('Purchase Invoice', 'purchase_form_id', self.name)
