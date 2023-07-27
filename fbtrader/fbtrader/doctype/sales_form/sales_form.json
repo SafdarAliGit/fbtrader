@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "SF-.YY.-.#####",
+ "autoname": "SINV-.YY.-.#####",
  "creation": "2023-07-26 19:18:07.271931",
  "default_view": "List",
  "doctype": "DocType",
@@ -270,8 +270,13 @@
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
- "links": [],
- "modified": "2023-07-27 17:11:38.916022",
+ "links": [
+  {
+   "link_doctype": "Sales Invoice",
+   "link_fieldname": "sales_form_Id"
+  }
+ ],
+ "modified": "2023-07-27 17:45:12.649728",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Sales Form",

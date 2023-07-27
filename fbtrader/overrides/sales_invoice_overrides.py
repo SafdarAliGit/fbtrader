@@ -2,14 +2,12 @@
 # License: GNU General Public License v3. See license.txt
 
 
-
-from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import PurchaseInvoice
-
+from erpnext.accounts.doctype.sales_invoice.sales_invoice import SalesInvoice
 
 form_grid_templates = {"items": "templates/form_grid/item_grid.html"}
 
 
-class PurchaseInvoiceOverrides(PurchaseInvoice):
+class SalesInvoiceOverrides(SalesInvoice):
     def autoname(self):
-        self.name = self.purchase_form_id
+        self.name = self.sales_form_id
 
