@@ -26,7 +26,7 @@ class SalesForm(Document):
 			sii.rate = source_name.rate
 			sii.rate_per_lbs = source_name.rate_per_lbs
 			sii.lbs = source_name.lbs
-			sii.batch_no = source_name.batch_id
+			sii.batch_no = source_name.batch_no
 			sii.lbs_per_ctn = source_name.lbs_per_ctn
 			sii.kg_per_ctn = source_name.kg_per_ctn
 			sii.kgs = source_name.kgs
