@@ -14,17 +14,6 @@ form_grid_templates = {"items": "templates/form_grid/item_grid.html"}
 
 
 class PurchaseInvoiceOverrides(PurchaseInvoice):
-    def __init__(self, *args, **kwargs):
-        super(PurchaseInvoiceOverrides, self).__init__(*args, **kwargs)
+    def autoname(self):
+        self.name = self.purchase_form_id
 
-    def before_save(self):
-        for item in self.items:
-            item.qty = 100
-
-    def before_submit(self):
-        for item in self.items:
-            item.qty = 100
-
-    def onload(self):
-        for item in self.items:
-            item.qty = 100

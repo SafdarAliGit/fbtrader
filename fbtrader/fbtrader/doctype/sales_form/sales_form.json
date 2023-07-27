@@ -34,7 +34,6 @@
   "grade",
   "amended_from",
   "amount_information_section",
-  "current_outstanding_amount",
   "column_break_tz7hk",
   "amount",
   "column_break_1cxum",
@@ -83,16 +82,20 @@
    "reqd": 1
   },
   {
+   "default": "0",
    "fieldname": "qty",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "CTN",
+   "read_only": 1,
    "reqd": 1
   },
   {
+   "default": "0",
    "fieldname": "kg_per_ctn",
    "fieldtype": "Data",
-   "label": "KG / CTN"
+   "label": "KG / CTN",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_yctn9",
@@ -140,9 +143,11 @@
    "label": "Ref No"
   },
   {
+   "default": "None",
    "fieldname": "lot_no",
    "fieldtype": "Data",
-   "label": "Lot No"
+   "label": "Lot No",
+   "read_only": 1
   },
   {
    "fieldname": "lbs_per_ctn",
@@ -151,16 +156,20 @@
    "label": "LBS / CTN"
   },
   {
+   "default": "-----",
    "fieldname": "pkg_mode",
    "fieldtype": "Select",
    "label": "Pkg Mode",
-   "options": "\nEven\nUneven"
+   "options": "-----\nEven\nUneven",
+   "read_only": 1
   },
   {
+   "default": "-----",
    "fieldname": "grade",
    "fieldtype": "Select",
    "label": "Grade",
-   "options": "\nA\nAA\nA3"
+   "options": "-----\nA\nAA\nA3",
+   "read_only": 1
   },
   {
    "fieldname": "amended_from",
@@ -232,13 +241,6 @@
    "read_only": 1
   },
   {
-   "default": "0",
-   "fieldname": "current_outstanding_amount",
-   "fieldtype": "Currency",
-   "label": "Current Outstanding Amount",
-   "read_only": 1
-  },
-  {
    "fieldname": "due_date",
    "fieldtype": "Date",
    "label": "Payment Due Date",
@@ -269,7 +271,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-26 20:17:41.992438",
+ "modified": "2023-07-27 17:11:38.916022",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Sales Form",

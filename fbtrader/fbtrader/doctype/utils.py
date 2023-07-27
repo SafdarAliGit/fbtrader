@@ -455,7 +455,8 @@ def fetch_do(**args):
     data = frappe.db.sql(
         """
         select 
-            `tabPurchase Form`.qty,`tabPurchase Form`.kg_per_ctn, `tabPurchase Form`.lbs_per_ctn, `tabPurchase Form`.kgs,`tabPurchase Form`.lbs
+           `tabPurchase Form`.qty, `tabPurchase Form`.kg_per_ctn, `tabPurchase Form`.lbs_per_ctn,
+            `tabPurchase Form`.kgs, `tabPurchase Form`.lbs, `tabPurchase Form`.lot_no,`tabPurchase Form`.pkg_mode, `tabPurchase Form`.grade
         from `tabBatch`, `tabPurchase Form`
         where `tabBatch`.item = `tabPurchase Form`.item_code
             and `tabBatch`.batch_id =  `tabPurchase Form`.batch_id and `tabBatch`.item = %s

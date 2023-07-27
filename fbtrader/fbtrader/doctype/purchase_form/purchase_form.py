@@ -1,8 +1,9 @@
 # Copyright (c) 2023, Tech Ventures and contributors
 # For license information, please see license.txt
 import frappe
-# import frappe
 from frappe.model.document import Document
+from frappe.model.naming import make_autoname
+from general_voucher.general_voucher.doctype.utils_functions import get_doctype_by_field
 
 
 class PurchaseForm(Document):
@@ -42,6 +43,18 @@ class PurchaseForm(Document):
         except Exception as error:
             frappe.throw(f"{error}")
 
-        source_name.purchase_invoice_created = 1
+        source_name.purchase_created = 1
         source_name.save()
 
+    def on_cancel(self):
+        pi = get_doctype_by_field('Purchase Invoice', 'purchase_form_id', self.name)
+        if pi.docstatus != 2:  # Ensure the document is in the "Submitted" state
+            pi.cancel()
+            frappe.db.commit()
+        else:
+            frappe.throw("Document is not in the 'Submitted' state.")
+        if pi.amended_from:
+            new_name = int(pi.name.split("-")[-1]) + 1
+        else:
+            new_name = f"{pi.name}-{1}"
+        make_autoname(new_name, 'Purchase Invoice')

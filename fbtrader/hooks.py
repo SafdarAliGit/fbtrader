@@ -101,9 +101,9 @@ doctype_js = {"Purchase Invoice": "public/js/purchase_invoice.js", "Sales Invoic
 override_doctype_class = {
 	"Customer": "fbtrader.overrides.customer_overrides.CustomerOverrides"
 }
-# override_doctype_class = {
-#     "Purchase Invoice": "fbtrader.overrides.purchase_invoice_overrides.PurchaseInvoiceOverrides",
-# }
+override_doctype_class = {
+    "Purchase Invoice": "fbtrader.overrides.purchase_invoice_overrides.PurchaseInvoiceOverrides",
+}
 
 # Document Events
 # ---------------

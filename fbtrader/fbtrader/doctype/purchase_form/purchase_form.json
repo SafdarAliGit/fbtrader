@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "PF-.YY.-.#####",
+ "autoname": "PINV-.YY.-.#####",
  "creation": "2023-07-23 14:48:56.155105",
  "default_view": "List",
  "doctype": "DocType",
@@ -42,7 +42,7 @@
   "commission",
   "column_break_o6utu",
   "net_amount",
-  "purchase_invoice_created"
+  "purchase_created"
  ],
  "fields": [
   {
@@ -237,12 +237,13 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "default": "0",
-   "fieldname": "purchase_invoice_created",
-   "fieldtype": "Select",
+   "fieldname": "purchase_created",
+   "fieldtype": "Check",
    "hidden": 1,
-   "label": "purchase Invoice Created",
-   "options": "0\n1"
+   "label": "Purchase Created",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -253,7 +254,7 @@
    "link_fieldname": "purchase_form_id"
   }
  ],
- "modified": "2023-07-27 11:00:39.537915",
+ "modified": "2023-07-27 15:31:06.426138",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Purchase Form",
