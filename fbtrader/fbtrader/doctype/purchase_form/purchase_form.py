@@ -47,6 +47,7 @@ class PurchaseForm(Document):
         pi = get_doctype_by_field('Purchase Invoice', 'purchase_form_id', self.name)
         je = get_purchase_related_jv(self.name)
         if je:
+            je.reload()
             je.cancel()
         if pi.docstatus != 2:  # Ensure the document is in the "Submitted" state
             pi.cancel()
