@@ -48,11 +48,9 @@ class PurchaseForm(Document):
         jea = get_purchase_related_jv(self.name)
         je = frappe.get_doc('Journal Entry', jea.parent)
         if je:
-            je.reload()
             je.cancel()
             frappe.db.commit()
         if pi.docstatus != 2:  # Ensure the document is in the "Submitted" state
-            pi.reload()
             pi.cancel()
             frappe.db.commit()
         else:
