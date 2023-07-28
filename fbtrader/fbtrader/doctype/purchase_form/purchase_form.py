@@ -47,8 +47,6 @@ class PurchaseForm(Document):
         pi = get_doctype_by_field('Purchase Invoice', 'purchase_form_id', self.name)
         jea = get_purchase_related_jv(self.name)
         je = frappe.get_doc('Journal Entry', jea.parent)
-        frappe.throw(je)
-        return 
         if je:
             je.cancel()
             frappe.db.commit()
