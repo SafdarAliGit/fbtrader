@@ -21,9 +21,9 @@ def get_purchase_related_jv(reference_name):
         ORDER BY creation
         LIMIT 1
     """
-
-    parent_journal_entry = frappe.db.sql(query, as_dict=True)
-    if parent_journal_entry:
-        return parent_journal_entry
+    jea = frappe.db.sql(query, as_dict=True)
+    je = frappe.get_doc('Journal Entry', jea.parent)
+    if je:
+        return je
     else:
         return None

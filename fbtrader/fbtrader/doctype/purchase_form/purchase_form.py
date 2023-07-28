@@ -45,11 +45,9 @@ class PurchaseForm(Document):
 
     def on_cancel(self):
         pi = get_doctype_by_field('Purchase Invoice', 'purchase_form_id', self.name)
-        jv = get_purchase_related_jv(self.name)
-        if jv:
-            jvm = frappe.get_doc('Journal Entry', jv)
-            if jvm:
-                jvm.cancel()
+        je = get_purchase_related_jv(self.name)
+        if je:
+            je.cancel()
         if pi.docstatus != 2:  # Ensure the document is in the "Submitted" state
             pi.cancel()
 
