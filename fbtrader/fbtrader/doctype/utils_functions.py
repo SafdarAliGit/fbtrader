@@ -22,6 +22,7 @@ def get_purchase_related_jv(reference_name):
         LIMIT 1
     """
     jea = frappe.db.sql(query, as_dict=True)
+    frappe.throw(f"{jea}")
     je = frappe.get_doc('Journal Entry', jea.parent)
     if je:
         return je
