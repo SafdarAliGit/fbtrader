@@ -1,10 +1,9 @@
 # Copyright (c) 2023, Tech Ventures and contributors
 # For license information, please see license.txt
 import frappe
-from fbtrader.fbtrader.doctype.utils_functions import get_doctype_by_field
+from fbtrader.fbtrader.doctype.utils_functions import get_doctype_by_field, get_purchase_related_jv
 from frappe.model.document import Document
 from frappe.model.naming import make_autoname
-
 
 
 class PurchaseForm(Document):
@@ -46,8 +45,14 @@ class PurchaseForm(Document):
 
     def on_cancel(self):
         pi = get_doctype_by_field('Purchase Invoice', 'purchase_form_id', self.name)
+        jv = get_purchase_related_jv(self.name)
+        if jv:
+            jvm = frappe.get_doc('Journal Entry', jv)
+            if jvm:
+                jvm.cancel()
         if pi.docstatus != 2:  # Ensure the document is in the "Submitted" state
             pi.cancel()
+
             frappe.db.commit()
         else:
             frappe.throw("Document is not in the 'Submitted' state.")

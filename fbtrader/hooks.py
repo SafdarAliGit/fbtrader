@@ -15,6 +15,7 @@ app_license = "MIT"
 app_include_css = "/assets/fbtrader/css/fbtrader.css"
 # app_include_js = "/assets/fbtrader/js/fbtrader.js"
 
+
 # include js, css files in header of web template
 # web_include_css = "/assets/fbtrader/css/fbtrader.css"
 # web_include_js = "/assets/fbtrader/js/fbtrader.js"
@@ -98,13 +99,14 @@ doctype_js = {"Purchase Invoice": "public/js/purchase_invoice.js", "Sales Invoic
 # ---------------
 # Override standard doctype classes
 
+
 override_doctype_class = {
 
 }
 override_doctype_class = {
     "Purchase Invoice": "fbtrader.overrides.purchase_invoice_overrides.PurchaseInvoiceOverrides",
     "Customer": "fbtrader.overrides.customer_overrides.CustomerOverrides",
-     "Sales Invoice": "fbtrader.overrides.sales_invoice_overrides.SalesInvoiceOverrides"
+    "Sales Invoice": "fbtrader.overrides.sales_invoice_overrides.SalesInvoiceOverrides"
 }
 
 # Document Events

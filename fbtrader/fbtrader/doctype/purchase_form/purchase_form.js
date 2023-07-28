@@ -2,9 +2,16 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Purchase Form', {
-    // refresh: function(frm) {
-    //
-    // },
+
+    refresh: function (frm) {
+     // if (frm.doc.docstatus === 2) {
+            const amendButton = frm.page
+            .find('[data-label="Amend"]');
+
+        // Hide the button
+        amendButton.hide();
+        // }
+    },
     kg_per_ctn: function (frm) {
         var kg_per_ctn = frm.doc.kg_per_ctn;
         var qty = frm.doc.qty;
@@ -56,3 +63,5 @@ frappe.ui.form.on('Purchase Form', {
     }
 
 });
+
+
