@@ -12,14 +12,15 @@ class PurchaseForm(Document):
         try:
             pi = frappe.new_doc("Purchase Invoice")
             pi.posting_date = source_name.posting_date
-            pi.bill_no = source_name.bill_no
-            pi.bill_date = source_name.bill_date
+            pi.supplier_bill_no = source_name.bill_no
+            pi.supplier_bill_date = source_name.bill_date
             pi.supplier = source_name.supplier
             pi.purchase_form_id = source_name.name
             pi.payment_terms = source_name.payment_terms
             pi.company = frappe.defaults.get_defaults().company
             pi.write_off_percentage = source_name.commission_percentage
             pi.write_off_amount = source_name.commission
+            pi.remarks = self.name
 
             pii = pi.append("items", {})
             pii.item_code = source_name.item_code
