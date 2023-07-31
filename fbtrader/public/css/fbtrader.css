@@ -65,5 +65,7 @@ select:focus {
 
 
 /*CANCEL BUTTON END*/
- /*MOVE LENSE ICON AWAY*/
-
+ /*HIDE LENSE ICON AWAY*/
+span.search-icon {
+    visibility: hidden;
+}
