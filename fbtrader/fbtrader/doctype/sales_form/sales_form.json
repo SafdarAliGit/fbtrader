@@ -176,7 +176,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Purchase Form",
+   "options": "Sales Form",
    "print_hide": 1,
    "read_only": 1
   },
@@ -236,7 +236,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Purchase Form",
+   "options": "Sales Form",
    "print_hide": 1,
    "read_only": 1
   },
@@ -276,7 +276,7 @@
    "link_fieldname": "sales_form_Id"
   }
  ],
- "modified": "2023-07-27 17:45:12.649728",
+ "modified": "2023-07-31 18:10:46.082083",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Sales Form",
