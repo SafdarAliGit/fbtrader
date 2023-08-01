@@ -20,6 +20,7 @@ class SalesForm(Document):
             si.write_off_percentage = source_name.commission_percentage
             si.write_off_amount = source_name.commission
             si.commission_amount = source_name.commission
+            si.update_stock = 1
 
             sii = si.append("items", {})
             sii.item_code = source_name.item_code

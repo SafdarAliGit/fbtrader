@@ -7,7 +7,7 @@ frappe.ui.form.on('Sales Form', {
             return {
 
                       filters: [
-                     ["Batch", "item", "=", doc.item_code]
+                     ["Batch", "item", "=", doc.item_code], ["Batch", "batch_qty", ">", 0]
                 ]
 
             };
