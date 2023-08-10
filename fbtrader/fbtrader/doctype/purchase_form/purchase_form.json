@@ -15,6 +15,8 @@
   "column_break_tzp0a",
   "bill_date",
   "column_break_bxcy1",
+  "due_date",
+  "column_break_ubx4s",
   "posting_date",
   "item_information_section",
   "item_code",
@@ -244,6 +246,17 @@
    "hidden": 1,
    "label": "Purchase Created",
    "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Payment Due Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ubx4s",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -254,7 +267,7 @@
    "link_fieldname": "purchase_form_id"
   }
  ],
- "modified": "2023-07-31 16:39:52.885482",
+ "modified": "2023-08-10 06:18:58.301353",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Purchase Form",

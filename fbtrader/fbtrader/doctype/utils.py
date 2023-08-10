@@ -484,3 +484,14 @@ def get_primary_party(**args):
         return party_link.primary_party
     else:
         return None
+
+
+@frappe.whitelist()
+def get_payment_terms(**args):
+    terms_template = args.get('terms_template')
+    terms_doc = frappe.get_doc("Payment Terms Template", terms_template)
+    terms = terms_doc.get("terms")[0]
+    if not terms:
+        return None
+    else:
+        return terms

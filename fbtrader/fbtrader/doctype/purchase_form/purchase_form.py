@@ -20,6 +20,7 @@ class PurchaseForm(Document):
             pi.company = frappe.defaults.get_defaults().company
             pi.write_off_percentage = source_name.commission_percentage
             pi.write_off_amount = source_name.commission
+            pi.due_date = self.due_date
             pi.remarks = self.name
 
             pii = pi.append("items", {})
@@ -39,7 +40,7 @@ class PurchaseForm(Document):
             pii.base_rate = source_name.rate
             pii.base_amount = source_name.amount
 
-            pi.insert()
+            pi.save()
             pi.submit()
         except Exception as error:
             frappe.throw(f"{error}")

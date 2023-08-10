@@ -8,7 +8,7 @@
     font-weight: bold;
     padding-bottom: 10px;
     margin-bottom: 10px;
-    background-color: #e0e2e3;
+    background-color: #edf2f3;
     color: #FFFFFF; /* White font color */
 }
 
@@ -69,3 +69,37 @@ select:focus {
 span.search-icon {
     visibility: hidden;
 }
+
+/*tabs css*/
+
+
+/* Styles for the active tab */
+.form-tabs .nav-item .nav-link.active {
+    color: #fff; /* Set the text color for active tab */
+    background-color: #dcd8d8; /* Lighten the background color for active tab */
+    padding-right: 6px;
+    padding-left: 6px;
+}
+/*navbar*/
+.navbar.navbar-expand.sticky-top {
+  background-color: #a5ccf3;
+}
+/*background-color of pannedl*/
+.ce-block__content {
+  background-color: #ffffff;
+}
+.widget.links-widget-box {
+  border: 1px solid gainsboro;
+}
+.chart-loading-state.text-muted {
+  border: solid;
+  border: 1px solid gainsboro;
+}
+/*left menu style*/
+.desk-sidebar-item.standard-sidebar-item {
+  border: solid 1px gainsboro;
+}
+.page-head.flex {
+  background-color: gainsboro;
+}
+/*second menu bar*/

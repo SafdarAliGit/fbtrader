@@ -4,8 +4,8 @@
 frappe.ui.form.on('Purchase Form', {
 
     refresh: function (frm) {
-     // if (frm.doc.docstatus === 2) {
-            const amendButton = frm.page
+        // if (frm.doc.docstatus === 2) {
+        const amendButton = frm.page
             .find('[data-label="Amend"]');
 
         // Hide the button
@@ -42,7 +42,7 @@ frappe.ui.form.on('Purchase Form', {
         frm.set_value("commission", commission);
         frm.set_value("net_amount", net_amount);
     },
-    batch_id: function (frm) {
+    before_submit: function (frm) {
         if (frm.doc.item_code && frm.doc.batch_id && frm.doc.qty) {
             frappe.call({
                 method: 'frappe.client.insert',
@@ -58,9 +58,24 @@ frappe.ui.form.on('Purchase Form', {
             frappe.show_alert(`${frm.doc.batch_id} DO Created`);
         } else {
             frm.set_value("batch_id", ''); // Clear the batch_id field first
-            frappe.show_alert("Item, batch and ctn all are required")
+            frappe.throw("Item, batch and ctn all are required")
         }
+    },
+    payment_terms: function (frm) {
+        frappe.call({
+            method: 'fbtrader.fbtrader.doctype.utils.get_payment_terms',
+            args: {
+                terms_template: frm.doc.payment_terms,
+            },
+            callback: function (response) {
+                if (response.message) {
+                    const new_due_date = frappe.datetime.add_days(frm.doc.posting_date, response.message.credit_days);
+                    frm.set_value('due_date',new_due_date);
+                }
+            }
+        });
     }
+
 
 });
 
