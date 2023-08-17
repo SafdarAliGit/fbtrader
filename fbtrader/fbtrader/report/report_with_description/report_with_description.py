@@ -471,15 +471,21 @@ def get_account_type_map(company):
 
 
 def get_result_as_list(data, filters):
+
     balance, balance_in_account_currency = 0, 0
     inv_details = get_supplier_invoice_details()
 
     for d in data:
+        formatted_balance = ''
         if not d.get("posting_date"):
             balance, balance_in_account_currency = 0, 0
 
         balance = get_balance(d, balance, "debit", "credit")
-        d["balance"] = balance
+        if float(balance) > 0:
+            formatted_balance = f"{abs(balance)}Dr"
+        elif float(balance) < 0:
+            formatted_balance = f"{abs(balance)}Cr"
+        d["balance"] = formatted_balance
 
         d["account_currency"] = filters.account_currency
         d["bill_no"] = inv_details.get(d.get("against_voucher"), "")
@@ -520,7 +526,7 @@ def get_sales_invoice_items(result):
             voucher_items = frappe.db.sql("""
                                                                 SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
                                                                 FROM `tab{0}` m, `tab{1}` s
-                                                                WHERE m.name = s.parent and m.name = '{2}'
+                                                                WHERE m.name = s.parent and m.docstatus=1 and m.name = '{2}'
                                                                 ORDER BY m.name
                                                                 """.format(table_name, child_table_name,
                                                                            d.get('voucher_no')),
@@ -535,7 +541,7 @@ def get_sales_invoice_items(result):
             voucher_items = frappe.db.sql("""
                                                                 SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
                                                                 FROM `tab{0}` m, `tab{1}` s
-                                                                WHERE m.name = s.parent and m.name = '{2}'
+                                                                WHERE m.name = s.parent and m.docstatus=1 and m.name = '{2}'
                                                                 ORDER BY m.name
                                                                 """.format(table_name, child_table_name,
                                                                            d.get('voucher_no')),
@@ -551,7 +557,7 @@ def get_sales_invoice_items(result):
             voucher_items = frappe.db.sql("""
                                                     SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
                                                     FROM `tab{0}` m, `tab{1}` s
-                                                    WHERE m.name = s.parent and m.name = '{2}'
+                                                    WHERE m.name = s.parent and m.docstatus=1 and m.name = '{2}'
                                                     ORDER BY m.name
                                                     """.format(table_name, child_table_name, d.get('voucher_no')),
                                           as_dict=1)
@@ -700,7 +706,7 @@ def get_columns(filters):
         {
             "label": _("Balance ({0})").format(currency),
             "fieldname": "balance",
-            "fieldtype": "Float",
+            "fieldtype": "Data",
             "width": 130,
         },
         {"label": _("Voucher Type"), "fieldname": "voucher_type", "width": 120, "hidden": 1},
