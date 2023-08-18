@@ -471,7 +471,6 @@ def get_account_type_map(company):
 
 
 def get_result_as_list(data, filters):
-
     balance, balance_in_account_currency = 0, 0
     inv_details = get_supplier_invoice_details()
 
@@ -524,7 +523,7 @@ def get_sales_invoice_items(result):
             batch = ''
             table_name = d.get('voucher_type')
             child_table_name = table_name + ' Item'
-            if child_table_name =='Sales Invoice Item':
+            if child_table_name == 'Sales Invoice Item':
                 batch = 'batch_no'
             else:
                 batch = 'batch_id'
@@ -533,12 +532,13 @@ def get_sales_invoice_items(result):
                                                                 FROM `tab{1}` m, `tab{2}` s
                                                                 WHERE m.name = s.parent and m.docstatus=1 and m.name = '{3}'
                                                                 ORDER BY m.name
-                                                                """.format(batch, table_name, child_table_name,d.get('voucher_no')),as_dict=1)
+                                                                """.format(batch, table_name, child_table_name,
+                                                                           d.get('voucher_no')), as_dict=1)
             for item in voucher_items:
                 if batch == 'batch_no':
-                    description += f"{item.item_name}<br> {item.qty}CTN@{item.rate_per_lbs} Kgs {item.kgs} LBS {item.lbs} DO {item.batch_no}  Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+                    description += f"{item.item_name}<br> {item.qty} CTN @ {item.rate_per_lbs} Kgs {item.kgs} LBS {item.lbs} DO {item.batch_no}  Com.{item.write_off_percentage}% Terms {item.payment_terms}<br>"
                 elif batch == 'batch_id':
-                    description += f"{item.item_name}<br> {item.qty}CTN@{item.rate_per_lbs} Kgs {item.kgs} LBS {item.lbs} DO {item.batch_id}  Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+                    description += f"{item.item_name}<br> {item.qty} CTN @ {item.rate_per_lbs} Kgs {item.kgs} LBS {item.lbs} DO {item.batch_id}  Com.{item.write_off_percentage}% Terms {item.payment_terms}<br>"
 
             d['description'] = description
 
@@ -554,7 +554,7 @@ def get_sales_invoice_items(result):
                                                                            d.get('voucher_no')),
                                           as_dict=1)
             for item in voucher_items:
-                description += f"{item.item_name}<br> {item.qty}CTN@{item.rate_per_lbs} Kgs {item.kgs} LBS {item.lbs} DO {item.batch_no} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+                description += f"{item.item_name}<br> {item.qty} CTN @ {item.rate_per_lbs} Kgs {item.kgs} LBS {item.lbs} DO {item.batch_no} Com.{item.write_off_percentage}% Terms {item.payment_terms}<br>"
             d['description'] = description
 
         if d.get('voucher_type') == 'Journal Entry' and 'PINV-' in d.get('voucher_no'):
@@ -569,7 +569,7 @@ def get_sales_invoice_items(result):
                                                     """.format(table_name, child_table_name, d.get('voucher_no')),
                                           as_dict=1)
             for item in voucher_items:
-                description += f"{item.item_name}<br> {item.qty}CTN@{item.rate_per_lbs}  Kgs {item.kgs} LBS {item.lbs} DO {item.batch_id} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+                description += f"{item.item_name}<br> {item.qty} CTN @ {item.rate_per_lbs}  Kgs {item.kgs} LBS {item.lbs} DO {item.batch_id} Com.{item.write_off_percentage}% Terms {item.payment_terms}<br>"
             d['description'] = description
 
         if d.get('voucher_type') == 'Payment Entry' and 'RF-' in d.get('voucher_no') and d.get('name_id'):
@@ -613,6 +613,7 @@ def get_sales_invoice_items(result):
                 d['particular'] = d.get('voucher_no')
 
         if d.get('voucher_type') == 'Journal Entry' and 'PF-' in d.get('voucher_no') and not d.get('name_id'):
+
             voucher = 'Cash'
             description += f"{voucher}"
             d['description'] = description
@@ -620,10 +621,41 @@ def get_sales_invoice_items(result):
 
 
         result_with_sales_items.append(d)
+    return sum_at_matching_end(result_with_sales_items)
 
-    return result_with_sales_items
+
+# custom
+def sum_at_matching_end(arr):
+    sums = {}
+
+    for item in arr:
+        item_id = item.get('voucher_no', None)
+
+        if item_id and ('PF' in item_id or 'RF' in item_id):  # Check if item_id is not None and contains 'PF' or 'RF'
+            item_value = 0
+
+            if item['debit'] > 0:
+                item_value = item['debit']
+            else:
+                item_value = item['credit']
+
+            if item_id in sums:
+                sums[item_id] += item_value
+            else:
+                sums[item_id] = item_value
+
+            last_matched = None
+            for i in range(len(arr) - 1, -1, -1):
+                if arr[i].get('voucher_no') == item_id:
+                    last_matched = arr[i]
+                    break
+
+            if last_matched is not None:
+                last_matched['aggregate'] = sums[item_id]
+    return arr
 
 
+# end custom
 def get_supplier_invoice_details():
     inv_details = {}
     for d in frappe.db.sql(
@@ -679,6 +711,11 @@ def get_columns(filters):
             "label": _("Description"),
             "fieldname": "description",
             "width": 140,
+        },
+        {
+            "label": _("Aggregate"),
+            "fieldname": "aggregate",
+            "width": 100,
         },
         # {
         #     "label": _("Qty"),
@@ -757,4 +794,3 @@ def get_columns(filters):
     )
 
     return columns
-
