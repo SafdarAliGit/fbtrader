@@ -521,25 +521,32 @@ def get_sales_invoice_items(result):
             d.particular = '{0}'.format(d.get('voucher_no'))
         description = ""
         if d.get('voucher_type') in ['Sales Invoice', 'Purchase Invoice'] and d.get('voucher_no'):
+            batch = ''
             table_name = d.get('voucher_type')
             child_table_name = table_name + ' Item'
+            if child_table_name =='Sales Invoice Item':
+                batch = 'batch_no'
+            else:
+                batch = 'batch_id'
             voucher_items = frappe.db.sql("""
-                                                                SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
-                                                                FROM `tab{0}` m, `tab{1}` s
-                                                                WHERE m.name = s.parent and m.docstatus=1 and m.name = '{2}'
+                                                                SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs,s.kgs,s.lbs,s.{0}, s.amount, m.write_off_percentage, m.payment_terms
+                                                                FROM `tab{1}` m, `tab{2}` s
+                                                                WHERE m.name = s.parent and m.docstatus=1 and m.name = '{3}'
                                                                 ORDER BY m.name
-                                                                """.format(table_name, child_table_name,
-                                                                           d.get('voucher_no')),
-                                          as_dict=1)
+                                                                """.format(batch, table_name, child_table_name,d.get('voucher_no')),as_dict=1)
             for item in voucher_items:
-                description += f"{item.item_name}<br> {item.qty}@{item.rate_per_lbs} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+                if batch == 'batch_no':
+                    description += f"{item.item_name}<br> {item.qty}CTN@{item.rate_per_lbs} Kgs {item.kgs} LBS {item.lbs} DO {item.batch_no}  Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+                elif batch == 'batch_id':
+                    description += f"{item.item_name}<br> {item.qty}CTN@{item.rate_per_lbs} Kgs {item.kgs} LBS {item.lbs} DO {item.batch_id}  Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+
             d['description'] = description
 
         if d.get('voucher_type') == 'Journal Entry' and 'SINV-' in d.get('voucher_no'):
             table_name = 'Sales Invoice'
             child_table_name = table_name + ' Item'
             voucher_items = frappe.db.sql("""
-                                                                SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
+                                                                SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs,s.kgs,s.lbs,s.batch_no, s.amount, m.write_off_percentage, m.payment_terms
                                                                 FROM `tab{0}` m, `tab{1}` s
                                                                 WHERE m.name = s.parent and m.docstatus=1 and m.name = '{2}'
                                                                 ORDER BY m.name
@@ -547,7 +554,7 @@ def get_sales_invoice_items(result):
                                                                            d.get('voucher_no')),
                                           as_dict=1)
             for item in voucher_items:
-                description += f"{item.item_name}<br> {item.qty}@{item.rate_per_lbs} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+                description += f"{item.item_name}<br> {item.qty}@{item.rate_per_lbs} Kgs {item.kgs} LBS {item.lbs} DO {item.batch_no} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
             d['description'] = description
 
         if d.get('voucher_type') == 'Journal Entry' and 'PINV-' in d.get('voucher_no'):
@@ -555,14 +562,14 @@ def get_sales_invoice_items(result):
             child_table_name = table_name + ' Item'
 
             voucher_items = frappe.db.sql("""
-                                                    SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
+                                                    SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs,s.kgs,s.lbs,s.batch_id, s.amount, m.write_off_percentage, m.payment_terms
                                                     FROM `tab{0}` m, `tab{1}` s
                                                     WHERE m.name = s.parent and m.docstatus=1 and m.name = '{2}'
                                                     ORDER BY m.name
                                                     """.format(table_name, child_table_name, d.get('voucher_no')),
                                           as_dict=1)
             for item in voucher_items:
-                description += f"{item.item_name}<br> {item.qty}@{item.rate_per_lbs} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+                description += f"{item.item_name}<br> {item.qty}@{item.rate_per_lbs}  Kgs {item.kgs} LBS {item.lbs} DO {item.batch_id} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
             d['description'] = description
 
         if d.get('voucher_type') == 'Payment Entry' and 'RF-' in d.get('voucher_no') and d.get('name_id'):
