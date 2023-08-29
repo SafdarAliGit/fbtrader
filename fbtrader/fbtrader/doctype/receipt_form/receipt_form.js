@@ -113,7 +113,7 @@ frappe.ui.form.on('Receipt Form Item', {
         if(mode_of_payment == 'Online Deposit'){
             frappe.meta.get_docfield('Receipt Form Item', 'bank_name', row.name).reqd = 1;
             frappe.meta.get_docfield('Receipt Form Item', 'slip_no', row.name).reqd = 1;
-            frappe.meta.get_docfield('Receipt Form Item', 'account_title', row.name).reqd = 1;
+            // frappe.meta.get_docfield('Receipt Form Item', 'account_title', row.name).reqd = 1;
         }
 
     }
