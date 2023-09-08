@@ -45,11 +45,11 @@ class SalesForm(Document):
 
     def on_cancel(self):
         si = get_doctype_by_field('Sales Invoice', 'sales_form_id', self.name)
-        if si.docstatus != 2:  # Ensure the document is in the "Submitted" state
-            si.cancel()
-            frappe.db.commit()
-        else:
-            frappe.throw("Document is not in the 'Submitted' state.")
+        # if si.docstatus != 2:  # Ensure the document is in the "Submitted" state
+        si.cancel()
+        frappe.db.commit()
+        # else:
+        #     frappe.throw("Document is not in the 'Submitted' state.")
         if si.amended_from:
             new_name = int(si.name.split("-")[-1]) + 1
         else:

@@ -52,11 +52,11 @@ class PurchaseForm(Document):
         if je:
             je.cancel()
             frappe.db.commit()
-        if pi.docstatus != 2:  # Ensure the document is in the "Submitted" state
-            pi.cancel()
-            frappe.db.commit()
-        else:
-            frappe.throw("Document is not in the 'Submitted' state.")
+        # if pi.docstatus != 2:  # Ensure the document is in the "Submitted" state
+        pi.cancel()
+        frappe.db.commit()
+        # else:
+        #     frappe.throw("Document is not in the 'Submitted' state.")
         if pi.amended_from:
             new_name = int(pi.name.split("-")[-1]) + 1
         else:

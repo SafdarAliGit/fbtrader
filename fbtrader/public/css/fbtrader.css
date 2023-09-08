@@ -103,3 +103,10 @@ span.search-icon {
   background-color: gainsboro;
 }
 /*second menu bar*/
+/*for select*/
+form-control, .form-control:not([type="checkbox"]):not([type="radio"]), select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px !important;
+  background-color: #FFFFFF;
+}
