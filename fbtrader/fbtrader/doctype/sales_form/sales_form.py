@@ -38,7 +38,7 @@ class SalesForm(Document):
             sii.base_rate = source_name.rate
             sii.base_amount = source_name.amount
 
-            si.insert()
+            si.save()
             si.submit()
         except Exception as error:
             frappe.throw(f"{error}")
