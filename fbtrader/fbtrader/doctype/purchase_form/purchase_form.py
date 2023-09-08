@@ -45,20 +45,20 @@ class PurchaseForm(Document):
         except Exception as error:
             frappe.throw(f"{error}")
 
-    def on_cancel(self):
-        pi = get_doctype_by_field('Purchase Invoice', 'purchase_form_id', self.name)
-        jea = get_purchase_related_jv(self.name)
-        je = frappe.get_doc('Journal Entry', jea.parent)
-        if je:
-            je.cancel()
-            frappe.db.commit()
-        # if pi.docstatus != 2:  # Ensure the document is in the "Submitted" state
-        pi.cancel()
-        frappe.db.commit()
-        # else:
-        #     frappe.throw("Document is not in the 'Submitted' state.")
-        if pi.amended_from:
-            new_name = int(pi.name.split("-")[-1]) + 1
-        else:
-            new_name = f"{pi.name}-{1}"
-        make_autoname(new_name, 'Purchase Invoice')
+    # def on_cancel(self):
+    #     pi = get_doctype_by_field('Purchase Invoice', 'purchase_form_id', self.name)
+    #     jea = get_purchase_related_jv(self.name)
+    #     je = frappe.get_doc('Journal Entry', jea.parent)
+    #     if je:
+    #         je.cancel()
+    #         frappe.db.commit()
+    #     # if pi.docstatus != 2:  # Ensure the document is in the "Submitted" state
+    #     pi.cancel()
+    #     frappe.db.commit()
+    #     # else:
+    #     #     frappe.throw("Document is not in the 'Submitted' state.")
+    #     if pi.amended_from:
+    #         new_name = int(pi.name.split("-")[-1]) + 1
+    #     else:
+    #         new_name = f"{pi.name}-{1}"
+    #     make_autoname(new_name, 'Purchase Invoice')
