@@ -395,33 +395,33 @@ def payment_entry_from_payment_form(**args):
                         # return je
                     except Exception as error:
                         frappe.throw(f"{error}")
-                if source_name.cash_payment > 0:
-                    try:
-                        pje = frappe.new_doc("Journal Entry")
-                        pje.posting_date = posting_date
-                        pje.voucher_type = voucher_type
-                        pje.company = company
-                        pje.bill_no = tr_no
-                        cash_account = 'Cash - FBT'
-                        pje.append("accounts", {
-                            'account': account,
-                            'party_type': party_type,
-                            'party': party,
-                            'debit_in_account_currency': source_name.cash_payment,
-                            'credit_in_account_currency': 0,
-                            'user_remark': f"Amount {currency} {source_name.cash_payment} Debited to {party} Tr # {tr_no}"
-                        })
+            if source_name.cash_payment > 0:
+                try:
+                    pje = frappe.new_doc("Journal Entry")
+                    pje.posting_date = posting_date
+                    pje.voucher_type = voucher_type
+                    pje.company = company
+                    pje.bill_no = tr_no
+                    cash_account = 'Cash - FBT'
+                    pje.append("accounts", {
+                        'account': account,
+                        'party_type': party_type,
+                        'party': party,
+                        'debit_in_account_currency': source_name.cash_payment,
+                        'credit_in_account_currency': 0,
+                        'user_remark': f"Amount {currency} {source_name.cash_payment} Debited to {party} Tr # {tr_no}"
+                    })
 
-                        pje.append("accounts", {
-                            'account': cash_account,
-                            'debit_in_account_currency': 0,
-                            'credit_in_account_currency': source_name.cash_payment,
-                            'user_remark': f"Amount {currency} {source_name.cash_payment} Credited to {cash_account} Tr # {tr_no}"
-                        })
-                        pje.submit()
-                        # return si
-                    except Exception as error:
-                        frappe.throw(f"{error}")
+                    pje.append("accounts", {
+                        'account': cash_account,
+                        'debit_in_account_currency': 0,
+                        'credit_in_account_currency': source_name.cash_payment,
+                        'user_remark': f"Amount {currency} {source_name.cash_payment} Credited to {cash_account} Tr # {tr_no}"
+                    })
+                    pje.submit()
+                    # return si
+                except Exception as error:
+                    frappe.throw(f"{error}")
 
             frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done', 1)
         else:
