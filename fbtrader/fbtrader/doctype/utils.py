@@ -338,44 +338,46 @@ def payment_entry_from_receipt_form(source_name):
 
 @frappe.whitelist()
 def payment_entry_from_payment_form(**args):
-    source_name = frappe.get_doc("Payment Form", args.get('source_name'))
-    receipt_form_item = frappe.get_all('Receipt Form Item', filters={'payment_form_id': args.get('source_name')},
-                                       fields=['in_date', 'in_party', 'mode_of_payment', 'bank_name', 'account_title',
-                                               'cheque_no', 'bank_date', 'amount', 'out_party', 'out_date',
-                                               'payment_form_id'
-                                           , 'status', 'name_id', 'slip_no'])
-
-    currency = frappe.defaults.get_defaults().currency
-    company = frappe.defaults.get_defaults().company
-    posting_date = source_name.posting_date
-    voucher_type = 'Journal Entry'
-    party_type = 'Customer'
-    party = source_name.party_name
     try:
+        source_name = frappe.get_doc("Payment Form", args.get('source_name'))
+        receipt_form_item = frappe.get_all('Receipt Form Item', filters={'payment_form_id': args.get('source_name')},
+                                           fields=['in_date', 'in_party', 'mode_of_payment', 'bank_name', 'account_title',
+                                                   'cheque_no', 'bank_date', 'amount', 'out_party', 'out_date',
+                                                   'payment_form_id', 'status', 'name_id', 'slip_no'])
+
+        currency = frappe.defaults.get_defaults().currency
+        company = frappe.defaults.get_defaults().company
+        posting_date = source_name.posting_date
+        voucher_type = 'Journal Entry'
+        party_type = 'Customer'
+        party = source_name.party_name
+
         account = get_party_account(party_type, party=party, company=company)
-    except:
-        frappe.throw("Error occured finding paid from account ")
-    tr_no = source_name.name
-    if len(receipt_form_item) > 0 or source_name.cash_payment > 0:
-        if not source_name.payment_entry_done:
-            if len(receipt_form_item) > 0:
-                for item in receipt_form_item:
-                    try:
+
+        tr_no = source_name.name
+
+        if len(receipt_form_item) > 0 or source_name.cash_payment > 0:
+            if not source_name.payment_entry_done:
+                if len(receipt_form_item) > 0:
+                    for item in receipt_form_item:
                         je = frappe.new_doc("Journal Entry")
                         je.posting_date = posting_date
                         je.voucher_type = voucher_type
                         je.company = company
                         je.mode_of_payment = item.mode_of_payment
                         je.bill_no = tr_no
+
                         if item.mode_of_payment == 'Online Deposit':
                             je.slip_no = item.cheque_no
-                        if item.mode_of_payment == 'Cheque':
+                        elif item.mode_of_payment == 'Cheque':
                             je.reference_no = item.cheque_no
+
                         cash_account = (
                             'Chq In Hand - FBT' if item.mode_of_payment == 'Cheque' else
                             'Online Deposit Slip - FBT' if item.mode_of_payment == 'Online Deposit' else
                             None
                         )
+
                         je.append("accounts", {
                             'account': account,
                             'party_type': party_type,
@@ -392,16 +394,14 @@ def payment_entry_from_payment_form(**args):
                             'user_remark': f"Amount {currency} {item.amount} Credited to {cash_account} Tr # {tr_no} Serial# {item.name_id}"
                         })
                         je.submit()
-                        # return je
-                    except Exception as error:
-                        frappe.throw(f"{error}")
-            if source_name.cash_payment > 0:
-                try:
+
+                if source_name.cash_payment > 0:
                     pje = frappe.new_doc("Journal Entry")
                     pje.posting_date = posting_date
                     pje.voucher_type = voucher_type
                     pje.company = company
                     pje.bill_no = tr_no
+
                     cash_account = 'Cash - FBT'
                     pje.append("accounts", {
                         'account': account,
@@ -418,16 +418,20 @@ def payment_entry_from_payment_form(**args):
                         'credit_in_account_currency': source_name.cash_payment,
                         'user_remark': f"Amount {currency} {source_name.cash_payment} Credited to {cash_account} Tr # {tr_no}"
                     })
-                    pje.submit()
-                    # return si
-                except Exception as error:
-                    frappe.throw(f"{error}")
 
-            frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done', 1)
+                    pje.submit()
+
+                frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done', 1)
+
+            else:
+                frappe.throw("Journal Entry already created")
+
         else:
-            frappe.throw("Journal Entry already created")
-    else:
-        frappe.throw("No detail record found")
+            frappe.throw("No detail record found")
+
+    except Exception as error:
+        frappe.log_error(f"An error occurred: {error}", "Payment Entry Creation")
+
 
 
 @frappe.whitelist()
