@@ -162,7 +162,8 @@ frappe.ui.form.on('Payment Form', {
                                         entry.in_party = e.in_party,
                                         entry.out_party = frm.doc.party_name,
                                         entry.out_date = frm.doc.receipt_date,
-                                        entry.name_id = e.name_id
+                                        entry.name_id = e.name_id,
+                                        entry.slip_no = e.slip_no
                                 })
                                 frm.refresh_field("receipt_form_item")
                             }

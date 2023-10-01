@@ -85,4 +85,18 @@ frappe.ui.form.on('Sales Form', {
         frm.set_value("commission", commission);
         frm.set_value("net_amount", net_amount);
     },
+      payment_terms: function (frm) {
+        frappe.call({
+            method: 'fbtrader.fbtrader.doctype.utils.get_payment_terms',
+            args: {
+                terms_template: frm.doc.payment_terms,
+            },
+            callback: function (response) {
+                if (response.message) {
+                    const new_due_date = frappe.datetime.add_days(frm.doc.posting_date, response.message.credit_days);
+                    frm.set_value('due_date',new_due_date);
+                }
+            }
+        });
+    }
 });

@@ -232,6 +232,7 @@
    "options": "0\n1"
   },
   {
+   "default": "Today",
    "fieldname": "due_date",
    "fieldtype": "Date",
    "label": "Payment Due Date",
@@ -267,7 +268,7 @@
    "link_fieldname": "sales_form_Id"
   }
  ],
- "modified": "2023-07-31 18:23:28.877973",
+ "modified": "2023-10-01 07:51:25.170398",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Sales Form",

@@ -713,7 +713,7 @@ def get_columns(filters):
             "width": 140,
         },
         {
-            "label": _("Aggregate"),
+            "label": _("Slip total"),
             "fieldname": "aggregate",
             "width": 100,
         },
