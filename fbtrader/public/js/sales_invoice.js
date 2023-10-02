@@ -1055,6 +1055,7 @@ frappe.ui.form.on('Sales Invoice', {
 		frm.set_value('commission_amount',commission_amount);
 		frm.set_value('additional_discount_percentage',commission_percentage);
 		frm.set_value('discount_amount',commission_amount);
+
 	},
 	// END CUSTOM WORK
 });

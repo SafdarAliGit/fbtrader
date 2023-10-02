@@ -10,9 +10,6 @@ class PaymentForm(Document):
 
     def before_save(self):
         if len(self.receipt_form_item) > 0 or self.cash_payment > 0:
-            self.posting_date = self.posting_date
-            self.party = self.party
-            self.receipt_date = self.receipt_date
             self.tr_no = self.name
             self.docstatus = DocStatus.submitted()
 
@@ -20,7 +17,6 @@ class PaymentForm(Document):
                 rfi = frappe.get_doc(doctype="Receipt Form Item", name=item.id)
                 rfi.reload()
                 rfi.payment_form_id = self.name
-                rfi.status = 'Out'
                 rfi.out_party = self.party_name
                 rfi.out_date = self.posting_date
                 rfi.docstatus = DocStatus.submitted()

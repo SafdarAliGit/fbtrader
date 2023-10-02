@@ -20,8 +20,12 @@ class SalesForm(Document):
             si.write_off_percentage = source_name.commission_percentage
             si.write_off_amount = source_name.commission
             si.commission_amount = source_name.commission
-            si.due_date = self.due_date
-            si.remarks = self.name
+            si.due_date = source_name.due_date
+            si.remarks = source_name.name
+            si.total= source_name.amount
+            si.grand_total = source_name.net_amount
+            si.base_net_total = source_name.net_amount
+            si.net_total = source_name.net_amount
             si.update_stock = 1
 
             sii = si.append("items", {})
@@ -39,8 +43,6 @@ class SalesForm(Document):
             sii.stock_qty = source_name.qty
             sii.base_rate = source_name.rate
             sii.base_amount = source_name.amount
-
-            si.save()
             si.submit()
         except Exception as error:
             frappe.throw(f"{error}")
@@ -57,3 +59,4 @@ class SalesForm(Document):
         else:
             new_name = f"{si.name}-{1}"
         make_autoname(new_name, 'Sales Invoice')
+

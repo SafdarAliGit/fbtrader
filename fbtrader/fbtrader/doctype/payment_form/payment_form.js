@@ -13,7 +13,7 @@ frappe.ui.form.on('Payment Form', {
 
         }
 
-        calculate_net_total(frm)
+
         frm.set_value("tr_no", frm.doc.name);
         frm.page.btn_secondary.hide()
         // PAYMENT
@@ -191,7 +191,7 @@ frappe.ui.form.on('Payment Form', {
 
         }).addClass("btn-primary")
 
-        if (frm.doc.docstatus === 1 && !frm.doc.payment_entry_done) {
+        if (frm.doc.docstatus === 1) {
             frm.add_custom_button(__("Cancel Payment Form"), function () {
 
                 frappe.confirm('Are you sure you want to proceed?',
@@ -220,7 +220,7 @@ frappe.ui.form.on('Payment Form', {
             }).addClass("btn-primary")
 
         }
-
+ calculate_net_total(frm)
 
     },
       cash_payment: function (frm) {
@@ -237,7 +237,9 @@ frappe.ui.form.on('Payment Form', {
     //     frm.doc.receipt_form_item = []
     // }
     after_save: function (frm) {
-        frappe.set_route('List', 'Payment Form');
+        // frappe.set_route('List', 'Payment Form');
+         frm.refresh();
+          calculate_net_total(frm)
     },
     before_cancel: function (frm) {
         frappe.msgprint('you are about to cancel');

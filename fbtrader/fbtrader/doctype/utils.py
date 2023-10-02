@@ -153,6 +153,11 @@ def cancel_payment_form(**args):
         rfi.out_date = None
         rfi.save()
     frappe.db.delete("Payment Form", args.get('parent'))
+    # TO CANCEL RELATED JOURNAL ENTRIES
+    je = frappe.get_all("Journal Entry", filters={"bill_no": args.get('parent')}, fields=["name"])
+    if je:
+        for j in je:
+            frappe.get_doc("Journal Entry", j.name).cancel()
     return "Cancelled"
 
 
@@ -324,7 +329,6 @@ def payment_entry_from_receipt_form(source_name):
                         pe.reference_no = item.cheque_no
                         pe.reference_date = item.bank_date
                     pe.submit()
-                    # return si
                 except Exception as error:
                     frappe.throw("Payment Entry Not Created")
 
@@ -420,6 +424,11 @@ def payment_entry_from_payment_form(**args):
                     })
 
                     pje.submit()
+                pfi = frappe.get_all('Receipt Form Item', filters={'payment_form_id': args.get('source_name')}, fields=['name'])
+                if pfi:
+                    for item in pfi:
+                        frappe.db.set_value('Receipt Form Item', item.name, 'status', 'Out')
+
 
                 frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done', 1)
 
