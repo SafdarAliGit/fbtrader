@@ -105,7 +105,7 @@ def get_receipts(**args):
                 )
         .where(
             (rfi.status == 'In')
-            & (rfi.docstatus == 1)
+            # & (rfi.docstatus == 1)
             # & (je.voucher_type == "Exchange Rate Revaluation")
         )
     )
@@ -159,6 +159,27 @@ def cancel_payment_form(**args):
         for j in je:
             frappe.get_doc("Journal Entry", j.name).cancel()
     return "Cancelled"
+
+
+@frappe.whitelist()
+def cancel_receipt_form(**args):
+    parent = args.get('parent')
+    statuses = []
+    rf = frappe.get_doc("Receipt Form", parent)
+    for r in rf.receipt_form_item:
+        statuses.append(r.status)
+    if not 'Out' in statuses:
+        pe = frappe.get_all("Payment Entry", filters={"tr_no": parent, "docstatus": ["<=", 1]}, fields=["name"])
+        if pe:
+            for p in pe:
+                frappe.get_doc("Payment Entry", p.name).cancel()
+        rf = frappe.get_doc("Receipt Form", parent)
+        rf.cancel()
+        rf_canceled = frappe.get_doc("Receipt Form", parent)
+        rf_canceled.delete()
+        return "Cancelled"
+    else:
+        frappe.throw("Some Or All Receipt form Items have Out Status")
 
 
 def get_cost_center_and_income_account(company):
@@ -345,7 +366,8 @@ def payment_entry_from_payment_form(**args):
     try:
         source_name = frappe.get_doc("Payment Form", args.get('source_name'))
         receipt_form_item = frappe.get_all('Receipt Form Item', filters={'payment_form_id': args.get('source_name')},
-                                           fields=['in_date', 'in_party', 'mode_of_payment', 'bank_name', 'account_title',
+                                           fields=['in_date', 'in_party', 'mode_of_payment', 'bank_name',
+                                                   'account_title',
                                                    'cheque_no', 'bank_date', 'amount', 'out_party', 'out_date',
                                                    'payment_form_id', 'status', 'name_id', 'slip_no'])
 
@@ -424,11 +446,11 @@ def payment_entry_from_payment_form(**args):
                     })
 
                     pje.submit()
-                pfi = frappe.get_all('Receipt Form Item', filters={'payment_form_id': args.get('source_name')}, fields=['name'])
+                pfi = frappe.get_all('Receipt Form Item', filters={'payment_form_id': args.get('source_name')},
+                                     fields=['name'])
                 if pfi:
                     for item in pfi:
                         frappe.db.set_value('Receipt Form Item', item.name, 'status', 'Out')
-
 
                 frappe.db.set_value('Payment Form', args.get('source_name'), 'payment_entry_done', 1)
 
@@ -440,7 +462,6 @@ def payment_entry_from_payment_form(**args):
 
     except Exception as error:
         frappe.log_error(f"An error occurred: {error}", "Payment Entry Creation")
-
 
 
 @frappe.whitelist()
@@ -508,3 +529,12 @@ def get_payment_terms(**args):
         return None
     else:
         return terms
+
+
+@frappe.whitelist()
+def slip_no_found(slip_no):
+    slip = frappe.db.get_value('Receipt Form Item', {'slip_no': slip_no})
+    if slip:
+        return True
+    else:
+        return False

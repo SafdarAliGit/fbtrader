@@ -65,6 +65,7 @@ frappe.ui.form.on('Payment Form', {
                             entry.out_party = frm.doc.party_name,
                             entry.out_date = frm.doc.receipt_date,
                             entry.name_id = e.name_id
+                            entry.slip_no = e.slip_no
                     })
                     refresh_field("receipt_form_item")
                 }
@@ -141,7 +142,8 @@ frappe.ui.form.on('Payment Form', {
                             account_title: filters.account_title,
                             mode_of_payment: filters.mode_of_payment,
                             cheque_no: filters.cheque_no,
-                            bank_date: filters.bank_date
+                            bank_date: filters.bank_date,
+                            slip_no: filters.slip_no
                         },
                         callback: function (response) {
                             if (response.message) {
@@ -289,6 +291,23 @@ frappe.ui.form.on('Receipt Form Item', {
         }
 
         calculate_net_total(frm)
+    },
+        slip_no: function (frm, cdt, cdn) {
+        var row = locals[cdt][cdn];
+        if (row.slip_no) {
+            frappe.call({
+                method: 'fbtrader.fbtrader.doctype.utils.slip_no_found',
+                args: {
+                    slip_no: row.slip_no
+                },
+                callback: function (response) {
+                    if (response.message) {
+                        frappe.throw(`Slip No ${row.slip_no} already taken`);
+                        frappe.model.set_value('slip_no', cdt, cdn, '');
+                    }
+                }
+            });
+        }
     }
 
 });

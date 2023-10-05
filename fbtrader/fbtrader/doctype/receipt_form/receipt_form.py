@@ -3,6 +3,7 @@
 import frappe
 # import frappe
 from frappe.model.document import Document
+from frappe.model.docstatus import DocStatus
 
 
 class ReceiptForm(Document):
@@ -10,3 +11,6 @@ class ReceiptForm(Document):
     def before_save(self):
         if len(self.receipt_form_item) < 1:
             frappe.throw("Detail Record not found !")
+
+    def on_submit(self):
+        self.docstatus = DocStatus.submitted()
