@@ -127,8 +127,13 @@
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
- "links": [],
- "modified": "2023-07-08 21:58:37.738834",
+ "links": [
+  {
+   "link_doctype": "Payment Entry",
+   "link_fieldname": "tr_no"
+  }
+ ],
+ "modified": "2023-10-05 17:14:42.500100",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Receipt Form",

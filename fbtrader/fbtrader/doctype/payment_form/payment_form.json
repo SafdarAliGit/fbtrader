@@ -139,8 +139,13 @@
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2023-07-11 15:23:44.543303",
+ "links": [
+  {
+   "link_doctype": "Journal Entry",
+   "link_fieldname": "bill_no"
+  }
+ ],
+ "modified": "2023-10-05 17:17:04.444656",
  "modified_by": "Administrator",
  "module": "fbtrader",
  "name": "Payment Form",
