@@ -22,11 +22,11 @@ class SalesForm(Document):
             si.commission_amount = source_name.commission
             si.due_date = source_name.due_date
             si.remarks = source_name.name
-            si.total= source_name.amount
-            si.grand_total = source_name.net_amount
-            si.base_net_total = source_name.net_amount
-            si.net_total = source_name.net_amount
             si.update_stock = 1
+            # si.grand_total = source_name.net_amount
+            # si.base_net_total = source_name.net_amount
+            # si.net_total = source_name.net_amount
+            si.additional_discount_percentage = source_name.commission_percentage
 
             sii = si.append("items", {})
             sii.item_code = source_name.item_code
